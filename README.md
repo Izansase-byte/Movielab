@@ -1,6 +1,6 @@
 # MovieLab · aplicación de escritorio
 
-MovieLab es un programa Python de escritorio para experimentar con sistemas de recomendación de películas. La interfaz está construida con Tkinter y se abre como una ventana normal del sistema: no utiliza navegador ni servidor web.
+MovieLab es un programa Python de escritorio para experimentar con sistemas de recomendación de películas. La interfaz está construida con Tkinter y se abre como una ventana normal del sistema.
 
 ## Algoritmos
 
