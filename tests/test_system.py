@@ -37,11 +37,11 @@ class RecommenderSystemTests(unittest.TestCase):
             self.assertTrue(((predictions >= 0.5) & (predictions <= 5.0)).all(), name)
 
     def test_evaluation_and_recommendations(self):
-        names = ["Modelo base", "Modelo híbrido"]
+        names = ["Model base", "Model híbrid"]
         results, fitted = evaluate_models(names, self.train, self.test, self.movies, top_k=5)
-        self.assertEqual(set(results["Algoritmo"]), set(names))
+        self.assertEqual(set(results["Algoritme"]), set(names))
         self.assertTrue((results["RMSE"] > 0).all())
-        recommendations = recommend_for_user(fitted["Modelo híbrido"], 1, self.movies, self.train, n=5)
+        recommendations = recommend_for_user(fitted["Model híbrid"], 1, self.movies, self.train, n=5)
         self.assertEqual(len(recommendations), 5)
         seen = set(self.train.loc[self.train["userId"] == 1, "movieId"])
         self.assertFalse(seen & set(recommendations["movieId"]))
@@ -52,7 +52,7 @@ class RecommenderSystemTests(unittest.TestCase):
         )
         self.assertAlmostEqual(sum(weights.values()), 1.0, places=6)
         self.assertGreaterEqual(len(attempts), 16)
-        model = build_model("Modelo híbrido", {"weights": weights}).fit(self.train, self.movies)
+        model = build_model("Model híbrid", {"weights": weights}).fit(self.train, self.movies)
         recommendations = recommend_for_user(
             model, 2, self.movies, self.train, n=7, diversity_strength=0.5
         )
@@ -67,9 +67,9 @@ class RecommenderSystemTests(unittest.TestCase):
         tail = popularity_curve(self.movies, self.ratings)
         self.assertEqual(len(movies), len(self.movies))
         self.assertEqual(len(users), self.ratings["userId"].nunique())
-        self.assertIn("Drama", set(genres["género"]))
-        self.assertGreater(quality["Esparsidad (%)"], 0)
-        self.assertAlmostEqual(float(tail.iloc[-1]["porcentaje_acumulado"]), 100.0)
+        self.assertIn("Drama", set(genres["gènere"]))
+        self.assertGreater(quality["Esparsitat (%)"], 0)
+        self.assertAlmostEqual(float(tail.iloc[-1]["percentatge_acumulat"]), 100.0)
 
 
 if __name__ == "__main__":

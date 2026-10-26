@@ -37,18 +37,18 @@ class AnalysisPanelMixin:
     def _build_analysis_tab(self) -> None:
         self.analysis_cache: dict[str, object] = {}
         self.analysis_movie_query = tk.StringVar()
-        self.analysis_movie_genre = tk.StringVar(value="Todos")
+        self.analysis_movie_genre = tk.StringVar(value="Tots")
         self.analysis_movie_min_votes = tk.IntVar(value=0)
         self.analysis_movie_min_score = tk.DoubleVar(value=0.0)
-        self.analysis_movie_order = tk.StringVar(value="Más valoradas")
+        self.analysis_movie_order = tk.StringVar(value="Més valorades")
         self.analysis_user = tk.StringVar()
-        self.analysis_genre_metric = tk.StringVar(value="Valoraciones")
+        self.analysis_genre_metric = tk.StringVar(value="Valoracions")
 
         toolbar = ttk.Frame(self.analysis_tab)
         toolbar.pack(fill="x", pady=(0, 8))
-        ttk.Label(toolbar, text="Herramientas de análisis", style="Section.TLabel").pack(side="left")
-        ttk.Button(toolbar, text="Actualizar estadísticas", command=lambda: self._refresh_analysis_views(force=True)).pack(side="right", padx=4)
-        ttk.Button(toolbar, text="Exportar tabla actual…", command=self._export_analysis_table).pack(side="right", padx=4)
+        ttk.Label(toolbar, text="Eines d’anàlisi", style="Section.TLabel").pack(side="left")
+        ttk.Button(toolbar, text="Actualitzar estadístiques", command=lambda: self._refresh_analysis_views(force=True)).pack(side="right", padx=4)
+        ttk.Button(toolbar, text="Exportar taula actual…", command=self._export_analysis_table).pack(side="right", padx=4)
 
         self.analysis_notebook = ttk.Notebook(self.analysis_tab)
         self.analysis_notebook.pack(fill="both", expand=True)
@@ -56,25 +56,25 @@ class AnalysisPanelMixin:
         users_page = ttk.Frame(self.analysis_notebook, padding=10)
         genres_page = ttk.Frame(self.analysis_notebook, padding=10)
         quality_page = ttk.Frame(self.analysis_notebook, padding=10)
-        self.analysis_notebook.add(movies_page, text="  Películas  ")
-        self.analysis_notebook.add(users_page, text="  Usuarios  ")
-        self.analysis_notebook.add(genres_page, text="  Géneros  ")
-        self.analysis_notebook.add(quality_page, text="  Calidad y cola larga  ")
+        self.analysis_notebook.add(movies_page, text="  Pel·lícules  ")
+        self.analysis_notebook.add(users_page, text="  Usuaris  ")
+        self.analysis_notebook.add(genres_page, text="  Gèneres  ")
+        self.analysis_notebook.add(quality_page, text="  Qualitat i cua llarga  ")
 
-        filters = ttk.LabelFrame(movies_page, text="Buscar y filtrar")
+        filters = ttk.LabelFrame(movies_page, text="Cercar i filtrar")
         filters.pack(fill="x", pady=(0, 8))
         fields = [
-            ("Título", ttk.Entry(filters, textvariable=self.analysis_movie_query, width=25)),
-            ("Género", ttk.Combobox(filters, textvariable=self.analysis_movie_genre, state="readonly", width=16)),
-            ("Mín. votos", ttk.Spinbox(filters, from_=0, to=100000, textvariable=self.analysis_movie_min_votes, width=8)),
+            ("Títol", ttk.Entry(filters, textvariable=self.analysis_movie_query, width=25)),
+            ("Gènere", ttk.Combobox(filters, textvariable=self.analysis_movie_genre, state="readonly", width=16)),
+            ("Mín. vots", ttk.Spinbox(filters, from_=0, to=100000, textvariable=self.analysis_movie_min_votes, width=8)),
             ("Nota mínima", ttk.Spinbox(filters, from_=0, to=5, increment=.1, textvariable=self.analysis_movie_min_score, width=8)),
-            ("Orden", ttk.Combobox(filters, textvariable=self.analysis_movie_order, values=["Más valoradas", "Mejor nota", "Más polémicas", "Título", "Más recientes"], state="readonly", width=17)),
+            ("Ordre", ttk.Combobox(filters, textvariable=self.analysis_movie_order, values=["Més valorades", "Millor nota", "Més polèmiques", "Títol", "Més recents"], state="readonly", width=17)),
         ]
         self.analysis_genre_combo = fields[1][1]
         for column, (label, widget) in enumerate(fields):
             ttk.Label(filters, text=label, style="Card.TLabel").grid(row=0, column=column, padx=7, pady=(5, 2), sticky="w")
             widget.grid(row=1, column=column, padx=7, pady=(0, 7), sticky="w")
-        ttk.Button(filters, text="Aplicar filtros", command=self._filter_movie_analysis).grid(row=1, column=len(fields), padx=12)
+        ttk.Button(filters, text="Aplicar filtres", command=self._filter_movie_analysis).grid(row=1, column=len(fields), padx=12)
         fields[0][1].bind("<Return>", lambda _e: self._filter_movie_analysis())
 
         movie_pane = ttk.Panedwindow(movies_page, orient="horizontal")
@@ -84,7 +84,7 @@ class AnalysisPanelMixin:
         movie_pane.add(movie_table_frame, weight=3)
         movie_pane.add(movie_chart_frame, weight=2)
         self.analysis_movies_tree = ttk.Treeview(movie_table_frame, columns=("id", "title", "genres", "year", "votes", "mean", "median", "std"), show="headings")
-        headings = [("id", "ID", 55), ("title", "Título", 260), ("genres", "Géneros", 240), ("year", "Año", 60), ("votes", "Votos", 65), ("mean", "Media", 65), ("median", "Mediana", 70), ("std", "Desv.", 65)]
+        headings = [("id", "ID", 55), ("title", "Títol", 260), ("genres", "Gèneres", 240), ("year", "Any", 60), ("votes", "Vots", 65), ("mean", "Mitjana", 65), ("median", "Mediana", 70), ("std", "Desv.", 65)]
         for col, label, width in headings:
             self.analysis_movies_tree.heading(col, text=label)
             self.analysis_movies_tree.column(col, width=width, anchor="w" if col in {"title", "genres"} else "center")
@@ -99,11 +99,11 @@ class AnalysisPanelMixin:
 
         user_controls = ttk.Frame(users_page)
         user_controls.pack(fill="x", pady=(0, 8))
-        ttk.Label(user_controls, text="Usuario:").pack(side="left")
+        ttk.Label(user_controls, text="Usuari:").pack(side="left")
         self.analysis_user_combo = ttk.Combobox(user_controls, textvariable=self.analysis_user, state="readonly", width=12)
         self.analysis_user_combo.pack(side="left", padx=6)
         self.analysis_user_combo.bind("<<ComboboxSelected>>", lambda _e: self._show_user_analysis())
-        self.analysis_user_summary = tk.StringVar(value="Selecciona un usuario.")
+        self.analysis_user_summary = tk.StringVar(value="Selecciona un usuari.")
         ttk.Label(user_controls, textvariable=self.analysis_user_summary).pack(side="left", padx=18)
         user_pane = ttk.Panedwindow(users_page, orient="horizontal")
         user_pane.pack(fill="both", expand=True)
@@ -112,7 +112,7 @@ class AnalysisPanelMixin:
         user_pane.add(history_frame, weight=3)
         user_pane.add(user_chart_frame, weight=2)
         self.analysis_user_tree = ttk.Treeview(history_frame, columns=("title", "genres", "rating"), show="headings")
-        for col, label, width in [("title", "Película", 300), ("genres", "Géneros", 260), ("rating", "Nota", 60)]:
+        for col, label, width in [("title", "Pel·lícula", 300), ("genres", "Gèneres", 260), ("rating", "Nota", 60)]:
             self.analysis_user_tree.heading(col, text=label)
             self.analysis_user_tree.column(col, width=width, anchor="center" if col == "rating" else "w")
         self.analysis_user_tree.pack(fill="both", expand=True)
@@ -123,8 +123,8 @@ class AnalysisPanelMixin:
 
         genre_toolbar = ttk.Frame(genres_page)
         genre_toolbar.pack(fill="x", pady=(0, 8))
-        ttk.Label(genre_toolbar, text="Gráfico:").pack(side="left")
-        combo = ttk.Combobox(genre_toolbar, textvariable=self.analysis_genre_metric, values=["Valoraciones", "Nota media", "Películas", "Usuarios"], state="readonly", width=18)
+        ttk.Label(genre_toolbar, text="Gràfic:").pack(side="left")
+        combo = ttk.Combobox(genre_toolbar, textvariable=self.analysis_genre_metric, values=["Valoracions", "Nota mitjana", "Pel·lícules", "Usuaris"], state="readonly", width=18)
         combo.pack(side="left", padx=6)
         combo.bind("<<ComboboxSelected>>", lambda _e: self._draw_genre_chart())
         genre_pane = ttk.Panedwindow(genres_page, orient="horizontal")
@@ -134,7 +134,7 @@ class AnalysisPanelMixin:
         genre_pane.add(genre_table_frame, weight=2)
         genre_pane.add(genre_chart_frame, weight=3)
         self.analysis_genre_tree = ttk.Treeview(genre_table_frame, columns=("genre", "movies", "ratings", "users", "mean", "std"), show="headings")
-        for col, label, width in [("genre", "Género", 130), ("movies", "Películas", 70), ("ratings", "Votos", 70), ("users", "Usuarios", 70), ("mean", "Media", 65), ("std", "Desv.", 65)]:
+        for col, label, width in [("genre", "Gènere", 130), ("movies", "Pel·lícules", 70), ("ratings", "Vots", 70), ("users", "Usuaris", 70), ("mean", "Mitjana", 65), ("std", "Desv.", 65)]:
             self.analysis_genre_tree.heading(col, text=label)
             self.analysis_genre_tree.column(col, width=width, anchor="w" if col == "genre" else "center")
         self.analysis_genre_tree.pack(fill="both", expand=True)
@@ -171,10 +171,10 @@ class AnalysisPanelMixin:
                 "quality": data_quality_report(self.movies, self.ratings),
                 "tail": popularity_curve(self.movies, self.ratings),
             }
-        genres = ["Todos", *sorted(self.analysis_cache["genres"]["género"].astype(str))]
+        genres = ["Tots", *sorted(self.analysis_cache["genres"]["gènere"].astype(str))]
         self.analysis_genre_combo.configure(values=genres)
         if self.analysis_movie_genre.get() not in genres:
-            self.analysis_movie_genre.set("Todos")
+            self.analysis_movie_genre.set("Tots")
         users = [str(value) for value in self.analysis_cache["users"]["userId"]]
         self.analysis_user_combo.configure(values=users)
         if users and self.analysis_user.get() not in users:
@@ -192,33 +192,33 @@ class AnalysisPanelMixin:
         if query:
             table = table[table["title"].str.contains(query, case=False, na=False, regex=False)]
         genre = self.analysis_movie_genre.get()
-        if genre and genre != "Todos":
+        if genre and genre != "Tots":
             table = table[table["genres"].fillna("").str.split("|").apply(lambda values: genre in values)]
         try:
-            table = table[(table["votos"] >= self.analysis_movie_min_votes.get()) & (table["media"].fillna(0) >= self.analysis_movie_min_score.get())]
+            table = table[(table["vots"] >= self.analysis_movie_min_votes.get()) & (table["mitjana"].fillna(0) >= self.analysis_movie_min_score.get())]
         except tk.TclError:
             return
         order = self.analysis_movie_order.get()
         sort_map = {
-            "Más valoradas": (["votos", "media"], [False, False]),
-            "Mejor nota": (["media", "votos"], [False, False]),
-            "Más polémicas": (["desviación", "votos"], [False, False]),
-            "Título": (["title"], [True]),
-            "Más recientes": (["año", "votos"], [False, False]),
+            "Més valorades": (["vots", "mitjana"], [False, False]),
+            "Millor nota": (["mitjana", "vots"], [False, False]),
+            "Més polèmiques": (["desviació", "vots"], [False, False]),
+            "Títol": (["title"], [True]),
+            "Més recents": (["any", "vots"], [False, False]),
         }
-        columns, ascending = sort_map.get(order, sort_map["Más valoradas"])
+        columns, ascending = sort_map.get(order, sort_map["Més valorades"])
         table = table.sort_values(columns, ascending=ascending, na_position="last")
         self.analysis_cache["filtered_movies"] = table
         _clear(self.analysis_movies_tree)
         for row in table.head(1000).itertuples(index=False):
-            year = "" if pd.isna(row.año) else int(row.año)
-            values = (row.movieId, row.title, row.genres, year, row.votos, self._fmt(row.media), self._fmt(row.mediana), self._fmt(row.desviación))
+            year = "" if pd.isna(row.any) else int(row.any)
+            values = (row.movieId, row.title, row.genres, year, row.vots, self._fmt(row.mitjana), self._fmt(row.mediana), self._fmt(row.desviació))
             self.analysis_movies_tree.insert("", "end", values=values)
-        chart = table.head(15).sort_values("media")
+        chart = table.head(15).sort_values("mitjana")
         self.analysis_movie_axis.clear()
-        self.analysis_movie_axis.barh(chart["title"].str.slice(0, 28), chart["media"].fillna(0), color=BLUE)
+        self.analysis_movie_axis.barh(chart["title"].str.slice(0, 28), chart["mitjana"].fillna(0), color=BLUE)
         self.analysis_movie_axis.set_xlim(0, 5)
-        self.analysis_movie_axis.set_title(f"Nota media · {len(table)} resultados")
+        self.analysis_movie_axis.set_title(f"Nota mitjana · {len(table)} resultats")
         self.analysis_movie_axis.grid(axis="x", alpha=.2)
         self.analysis_movie_figure.tight_layout()
         self.analysis_movie_canvas.draw_idle()
@@ -240,7 +240,7 @@ class AnalysisPanelMixin:
             return
         item = row.iloc[0]
         self.analysis_user_summary.set(
-            f"{int(item['valoraciones'])} valoraciones · media {item['media']:.2f} · género favorito: {item['género_favorito']}"
+            f"{int(item['valoracions'])} valoracions · mitjana {item['mitjana']:.2f} · gènere preferit: {item['gènere_preferit']}"
         )
         history = self.ratings[self.ratings["userId"] == user_id].merge(self.movies, on="movieId").sort_values("rating", ascending=False)
         _clear(self.analysis_user_tree)
@@ -249,9 +249,9 @@ class AnalysisPanelMixin:
         distribution = history["rating"].value_counts().sort_index()
         self.analysis_user_axis.clear()
         self.analysis_user_axis.bar([str(value) for value in distribution.index], distribution.values, color=GREEN)
-        self.analysis_user_axis.set_title(f"Distribución de notas · usuario {user_id}")
+        self.analysis_user_axis.set_title(f"Distribució de notas · usuari {user_id}")
         self.analysis_user_axis.set_xlabel("Nota")
-        self.analysis_user_axis.set_ylabel("Películas")
+        self.analysis_user_axis.set_ylabel("Pel·lícules")
         self.analysis_user_axis.grid(axis="y", alpha=.2)
         self.analysis_user_figure.tight_layout()
         self.analysis_user_canvas.draw_idle()
@@ -260,20 +260,20 @@ class AnalysisPanelMixin:
         table = self.analysis_cache["genres"]
         _clear(self.analysis_genre_tree)
         for row in table.itertuples(index=False):
-            self.analysis_genre_tree.insert("", "end", values=(row.género, row.películas, row.valoraciones, row.usuarios, self._fmt(row.media), self._fmt(row.desviación)))
+            self.analysis_genre_tree.insert("", "end", values=(row.gènere, row.pel·lícules, row.valoracions, row.usuaris, self._fmt(row.mitjana), self._fmt(row.desviació)))
         self._draw_genre_chart()
 
     def _draw_genre_chart(self) -> None:
         if not self.analysis_cache:
             return
         table = self.analysis_cache["genres"].copy()
-        mapping = {"Valoraciones": "valoraciones", "Nota media": "media", "Películas": "películas", "Usuarios": "usuarios"}
+        mapping = {"Valoracions": "valoracions", "Nota mitjana": "mitjana", "Pel·lícules": "pel·lícules", "Usuaris": "usuaris"}
         column = mapping[self.analysis_genre_metric.get()]
         table = table.sort_values(column, ascending=False).head(18).sort_values(column)
         self.analysis_genre_axis.clear()
-        self.analysis_genre_axis.barh(table["género"], table[column], color=BLUE)
+        self.analysis_genre_axis.barh(table["gènere"], table[column], color=BLUE)
         self.analysis_genre_axis.set_title(self.analysis_genre_metric.get())
-        if column == "media":
+        if column == "mitjana":
             self.analysis_genre_axis.set_xlim(0, 5)
         self.analysis_genre_axis.grid(axis="x", alpha=.2)
         self.analysis_genre_figure.tight_layout()
@@ -287,11 +287,11 @@ class AnalysisPanelMixin:
             self.analysis_quality_tree.insert("", "end", values=(metric, shown))
         curve = self.analysis_cache["tail"]
         self.analysis_tail_axis.clear()
-        self.analysis_tail_axis.plot(100 * curve["posición"] / max(1, len(curve)), curve["porcentaje_acumulado"], color=BLUE, linewidth=2.5)
+        self.analysis_tail_axis.plot(100 * curve["posició"] / max(1, len(curve)), curve["percentatge_acumulat"], color=BLUE, linewidth=2.5)
         self.analysis_tail_axis.axhline(80, color="#DC2626", linestyle="--", linewidth=1)
-        self.analysis_tail_axis.set_title("Curva de concentración de popularidad")
-        self.analysis_tail_axis.set_xlabel("% del catálogo, ordenado por popularidad")
-        self.analysis_tail_axis.set_ylabel("% acumulado de valoraciones")
+        self.analysis_tail_axis.set_title("Corba de concentració de popularitat")
+        self.analysis_tail_axis.set_xlabel("% del catàleg, ordenat per popularitat")
+        self.analysis_tail_axis.set_ylabel("% acumulat de valoracions")
         self.analysis_tail_axis.set_xlim(0, 100)
         self.analysis_tail_axis.set_ylim(0, 100)
         self.analysis_tail_axis.grid(alpha=.2)
@@ -303,16 +303,16 @@ class AnalysisPanelMixin:
             return
         index = self.analysis_notebook.index(self.analysis_notebook.select())
         tables = {
-            0: (self.analysis_cache.get("filtered_movies", self.analysis_cache["movies"]), "peliculas"),
-            1: (self.analysis_cache["users"], "usuarios"),
-            2: (self.analysis_cache["genres"], "generos"),
-            3: (pd.DataFrame(list(self.analysis_cache["quality"].items()), columns=["indicador", "valor"]), "calidad"),
+            0: (self.analysis_cache.get("filtered_movies", self.analysis_cache["movies"]), "pellicules"),
+            1: (self.analysis_cache["users"], "usuaris"),
+            2: (self.analysis_cache["genres"], "generes"),
+            3: (pd.DataFrame(list(self.analysis_cache["quality"].items()), columns=["indicador", "valor"]), "qualitat"),
         }
         table, name = tables[index]
-        path = filedialog.asksaveasfilename(title="Exportar análisis", initialfile=f"analisis_{name}.csv", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
+        path = filedialog.asksaveasfilename(title="Exportar anàlisi", initialfile=f"analisi_{name}.csv", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
         if path:
             table.to_csv(path, index=False)
-            self.status_text.set(f"Análisis exportado a {Path(path).name}")
+            self.status_text.set(f"Anàlisi exportada a {Path(path).name}")
 
 
 class NewUserPanelMixin:
@@ -320,44 +320,44 @@ class NewUserPanelMixin:
 
     def _build_new_user_tab(self) -> None:
         self.new_profile: list[dict[str, float | int]] = []
-        self.new_user_mode = tk.StringVar(value="Sencillo")
+        self.new_user_mode = tk.StringVar(value="Senzill")
         self.new_user_name = tk.StringVar()
-        self.new_user_model = tk.StringVar(value="Modelo híbrido")
+        self.new_user_model = tk.StringVar(value="Model híbrid")
         self.new_user_count = tk.IntVar(value=10)
         self.new_user_search = tk.StringVar()
         self.new_user_rating = tk.DoubleVar(value=4.0)
         self.new_user_genre_boost = tk.DoubleVar(value=.25)
         self.new_user_diversity = tk.DoubleVar(value=.10)
-        self.new_user_summary = tk.StringVar(value="Añade al menos tres valoraciones.")
+        self.new_user_summary = tk.StringVar(value="Afegeix almenys tres valoracions.")
         self.active_new_user_model = None
         self.active_new_user_id: int | None = None
         self.new_user_recommendations: pd.DataFrame | None = None
 
         mode_bar = ttk.Frame(self.new_user_tab)
         mode_bar.pack(fill="x", pady=(0, 8))
-        ttk.Label(mode_bar, text="Tipo de formulario:").pack(side="left")
-        ttk.Button(mode_bar, text="Sencillo", command=lambda: self._show_new_user_mode("Sencillo"), style="Accent.TButton").pack(side="left", padx=(8, 4))
-        ttk.Button(mode_bar, text="Avanzado", command=lambda: self._show_new_user_mode("Avanzado")).pack(side="left", padx=4)
-        ttk.Label(mode_bar, text="Elige el nivel de detalle que prefieras.", style="Muted.TLabel").pack(side="left", padx=14)
+        ttk.Label(mode_bar, text="Tipus de formulari:").pack(side="left")
+        ttk.Button(mode_bar, text="Senzill", command=lambda: self._show_new_user_mode("Senzill"), style="Accent.TButton").pack(side="left", padx=(8, 4))
+        ttk.Button(mode_bar, text="Avançat", command=lambda: self._show_new_user_mode("Avançat")).pack(side="left", padx=4)
+        ttk.Label(mode_bar, text="Tria el nivell de detall que prefereixis.", style="Muted.TLabel").pack(side="left", padx=14)
 
         self.simple_user_frame = ttk.Frame(self.new_user_tab)
         self.advanced_user_frame = ttk.Frame(self.new_user_tab)
 
         header = ttk.Frame(self.advanced_user_frame)
         header.pack(fill="x", pady=(0, 8))
-        ttk.Label(header, text="Formulario avanzado", style="Section.TLabel").pack(side="left")
+        ttk.Label(header, text="Formulari avançat", style="Section.TLabel").pack(side="left")
         ttk.Label(header, textvariable=self.new_user_summary).pack(side="right")
 
-        profile = ttk.LabelFrame(self.advanced_user_frame, text="1. Datos y preferencias")
+        profile = ttk.LabelFrame(self.advanced_user_frame, text="1. Dades i preferències")
         profile.pack(fill="x", pady=(0, 8))
-        for col, label in enumerate(["Nombre (opcional)", "Algoritmo", "Recomendaciones", "Impulso por género", "Diversidad"]):
+        for col, label in enumerate(["Nom (opcional)", "Algoritme", "Recomanacions", "Impuls per gènere", "Diversitat"]):
             ttk.Label(profile, text=label, style="Card.TLabel").grid(row=0, column=col, padx=7, pady=(5, 2), sticky="w")
         ttk.Entry(profile, textvariable=self.new_user_name, width=22).grid(row=1, column=0, padx=7, pady=(0, 7))
         ttk.Combobox(profile, textvariable=self.new_user_model, values=MODEL_NAMES, state="readonly", width=25).grid(row=1, column=1, padx=7, pady=(0, 7))
         ttk.Spinbox(profile, from_=1, to=100, textvariable=self.new_user_count, width=9).grid(row=1, column=2, padx=7, pady=(0, 7))
         ttk.Spinbox(profile, from_=0, to=1.5, increment=.05, textvariable=self.new_user_genre_boost, width=9).grid(row=1, column=3, padx=7, pady=(0, 7))
         ttk.Spinbox(profile, from_=0, to=.8, increment=.05, textvariable=self.new_user_diversity, width=9).grid(row=1, column=4, padx=7, pady=(0, 7))
-        ttk.Label(profile, text="Géneros preferidos (puedes elegir varios):", style="Card.TLabel").grid(row=0, column=5, padx=(20, 7), sticky="w")
+        ttk.Label(profile, text="Gèneres preferits (pots triar diversos):", style="Card.TLabel").grid(row=0, column=5, padx=(20, 7), sticky="w")
         self.new_genres_list = tk.Listbox(
             profile,
             selectmode="multiple",
@@ -382,13 +382,13 @@ class NewUserPanelMixin:
         panes.add(input_card, weight=3)
         panes.add(output_card, weight=3)
 
-        ttk.Label(input_card, text="2. Valora películas conocidas", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w")
+        ttk.Label(input_card, text="2. Valora pel·lícules conegudes", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w")
         search = ttk.Frame(input_card, style="Card.TFrame")
         search.pack(fill="x", pady=6)
         ttk.Entry(search, textvariable=self.new_user_search).pack(side="left", fill="x", expand=True)
-        ttk.Button(search, text="Buscar", command=self._search_new_movies).pack(side="left", padx=5)
+        ttk.Button(search, text="Cercar", command=self._search_new_movies).pack(side="left", padx=5)
         self.new_search_tree = ttk.Treeview(input_card, columns=("id", "title", "genres"), show="headings", height=8)
-        for col, label, width in [("id", "ID", 55), ("title", "Título", 280), ("genres", "Géneros", 230)]:
+        for col, label, width in [("id", "ID", 55), ("title", "Títol", 280), ("genres", "Gèneres", 230)]:
             self.new_search_tree.heading(col, text=label)
             self.new_search_tree.column(col, width=width, anchor="w")
         self.new_search_tree.pack(fill="both", expand=True)
@@ -396,12 +396,12 @@ class NewUserPanelMixin:
         add.pack(fill="x", pady=7)
         ttk.Label(add, text="Nota:", style="Card.TLabel").pack(side="left")
         ttk.Spinbox(add, from_=0.5, to=5, increment=.5, textvariable=self.new_user_rating, width=7).pack(side="left", padx=5)
-        ttk.Button(add, text="Añadir valoración", command=self._add_new_rating).pack(side="left")
-        ttk.Button(add, text="Quitar seleccionada", command=self._remove_new_rating).pack(side="right")
-        ttk.Button(add, text="Vaciar perfil", command=self._clear_new_profile).pack(side="right", padx=5)
+        ttk.Button(add, text="Afegir valoració", command=self._add_new_rating).pack(side="left")
+        ttk.Button(add, text="Treure seleccionada", command=self._remove_new_rating).pack(side="right")
+        ttk.Button(add, text="Buidar perfil", command=self._clear_new_profile).pack(side="right", padx=5)
         self.new_profile_tree = ttk.Treeview(input_card, columns=("id", "title", "rating"), show="headings", height=6)
         self.new_profile_tree.heading("id", text="ID")
-        self.new_profile_tree.heading("title", text="Películas del perfil")
+        self.new_profile_tree.heading("title", text="Pel·lícules del perfil")
         self.new_profile_tree.heading("rating", text="Nota")
         self.new_profile_tree.column("id", width=55, anchor="center")
         self.new_profile_tree.column("title", width=430)
@@ -410,33 +410,33 @@ class NewUserPanelMixin:
 
         output_toolbar = ttk.Frame(output_card, style="Card.TFrame")
         output_toolbar.pack(fill="x")
-        ttk.Label(output_toolbar, text="3. Recomendaciones", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(side="left")
-        ttk.Button(output_toolbar, text="Recomendar", command=self.generate_new_user_recommendations, style="Accent.TButton").pack(side="right")
-        ttk.Button(output_toolbar, text="Guardar usuario", command=self.save_new_user).pack(side="right", padx=5)
+        ttk.Label(output_toolbar, text="3. Recomanacions", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(side="left")
+        ttk.Button(output_toolbar, text="Recomanar", command=self.generate_new_user_recommendations, style="Accent.TButton").pack(side="right")
+        ttk.Button(output_toolbar, text="Desar usuari", command=self.save_new_user).pack(side="right", padx=5)
         self.new_recs_tree = ttk.Treeview(output_card, columns=("rank", "id", "title", "genres", "score"), show="headings", height=12)
-        for col, label, width in [("rank", "#", 35), ("id", "ID", 50), ("title", "Título", 260), ("genres", "Géneros", 210), ("score", "Nota", 60)]:
+        for col, label, width in [("rank", "#", 35), ("id", "ID", 50), ("title", "Títol", 260), ("genres", "Gèneres", 210), ("score", "Nota", 60)]:
             self.new_recs_tree.heading(col, text=label)
             self.new_recs_tree.column(col, width=width, anchor="center" if col in {"rank", "id", "score"} else "w")
         self.new_recs_tree.pack(fill="both", expand=True, pady=7)
         self.new_recs_tree.bind("<<TreeviewSelect>>", self._explain_new_recommendation)
         self.new_explanation = tk.Text(output_card, height=7, wrap="word", borderwidth=0, background="white", foreground="#111827", insertbackground="#111827", padx=5, pady=5)
         self.new_explanation.pack(fill="x")
-        self.new_explanation.insert("1.0", "Aquí aparecerá la explicación de la recomendación seleccionada.")
+        self.new_explanation.insert("1.0", "Aquí apareixerà l’explicació de la recomanació seleccionada.")
         self.new_explanation.configure(state="disabled")
         self._build_simple_user_form()
-        self._show_new_user_mode("Sencillo")
+        self._show_new_user_mode("Senzill")
 
     def _build_simple_user_form(self) -> None:
         self.simple_genre_vars: dict[str, tk.BooleanVar] = {}
         self.simple_movie_vars = [tk.StringVar() for _ in range(5)]
-        self.simple_rating_vars = [tk.StringVar(value="Me gustó") for _ in range(5)]
+        self.simple_rating_vars = [tk.StringVar(value="Em va agradar") for _ in range(5)]
 
         intro = ttk.Frame(self.simple_user_frame, style="Card.TFrame", padding=14)
         intro.pack(fill="x", pady=(0, 8))
-        ttk.Label(intro, text="Recomendación rápida", style="Card.TLabel", font=("Helvetica", 16, "bold")).pack(anchor="w")
+        ttk.Label(intro, text="Recomanació ràpida", style="Card.TLabel", font=("Helvetica", 16, "bold")).pack(anchor="w")
         ttk.Label(
             intro,
-            text="Cuéntanos qué te gusta. MovieLab elegirá automáticamente el modelo híbrido y sus ajustes recomendados.",
+            text="Explica’ns què t’agrada. MovieLab triarà automàticament el model híbrid i els ajustos recomanats.",
             style="Card.TLabel",
         ).pack(anchor="w", pady=(3, 0))
 
@@ -449,47 +449,47 @@ class NewUserPanelMixin:
 
         name_row = ttk.Frame(form, style="Card.TFrame")
         name_row.pack(fill="x", pady=(0, 10))
-        ttk.Label(name_row, text="Tu nombre", style="Card.TLabel").pack(side="left")
+        ttk.Label(name_row, text="El teu nom", style="Card.TLabel").pack(side="left")
         ttk.Entry(name_row, textvariable=self.new_user_name, width=24).pack(side="right", fill="x", expand=True, padx=(12, 0))
 
-        ttk.Label(form, text="1. Elige tus géneros favoritos", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
+        ttk.Label(form, text="1. Tria els teus gèneres preferits", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
         self.simple_genres_frame = ttk.Frame(form, style="Card.TFrame")
         self.simple_genres_frame.pack(fill="x", pady=(5, 12))
 
-        ttk.Label(form, text="2. Valora al menos tres películas", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
-        ttk.Label(form, text="No hace falta ser exacto: elige la opción que mejor describa tu opinión.", style="Muted.TLabel").pack(anchor="w", pady=(2, 5))
+        ttk.Label(form, text="2. Valora almenys tres pel·lícules", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
+        ttk.Label(form, text="No cal ser exacte: tria l’opció que descrigui millor la teva opinió.", style="Muted.TLabel").pack(anchor="w", pady=(2, 5))
         self.simple_movie_combos: list[ttk.Combobox] = []
-        opinions = ["No me gustó", "Regular", "Me gustó", "Me encantó"]
+        opinions = ["No em va agradar", "Regular", "Em va agradar", "Em va encantar"]
         for index in range(5):
             row = ttk.Frame(form, style="Card.TFrame")
             row.pack(fill="x", pady=3)
-            ttk.Label(row, text=f"Película {index + 1}", style="Card.TLabel", width=10).pack(side="left")
+            ttk.Label(row, text=f"Pel·lícula {index + 1}", style="Card.TLabel", width=10).pack(side="left")
             combo = ttk.Combobox(row, textvariable=self.simple_movie_vars[index], state="readonly", width=34)
             combo.pack(side="left", fill="x", expand=True, padx=5)
             ttk.Combobox(row, textvariable=self.simple_rating_vars[index], values=opinions, state="readonly", width=14).pack(side="right")
             self.simple_movie_combos.append(combo)
 
-        ttk.Button(form, text="Recomendarme películas", command=self._generate_simple_recommendations, style="Accent.TButton").pack(fill="x", pady=(14, 5))
-        ttk.Button(form, text="Guardar mi perfil en la base", command=self._save_simple_user).pack(fill="x", pady=4)
-        ttk.Button(form, text="Quiero ajustar más opciones", command=lambda: self._show_new_user_mode("Avanzado")).pack(fill="x", pady=4)
+        ttk.Button(form, text="Recomanar-me pel·lícules", command=self._generate_simple_recommendations, style="Accent.TButton").pack(fill="x", pady=(14, 5))
+        ttk.Button(form, text="Desar el meu perfil a la base", command=self._save_simple_user).pack(fill="x", pady=4)
+        ttk.Button(form, text="Vull ajustar més opcions", command=lambda: self._show_new_user_mode("Avançat")).pack(fill="x", pady=4)
 
-        ttk.Label(result, text="Películas para ti", style="Card.TLabel", font=("Helvetica", 14, "bold")).pack(anchor="w")
+        ttk.Label(result, text="Pel·lícules per a tu", style="Card.TLabel", font=("Helvetica", 14, "bold")).pack(anchor="w")
         self.simple_recs_tree = ttk.Treeview(result, columns=("rank", "id", "title", "genres", "score"), show="headings", height=13)
-        for col, label, width in [("rank", "#", 35), ("id", "ID", 45), ("title", "Título", 250), ("genres", "Géneros", 210), ("score", "Nota", 55)]:
+        for col, label, width in [("rank", "#", 35), ("id", "ID", 45), ("title", "Títol", 250), ("genres", "Gèneres", 210), ("score", "Nota", 55)]:
             self.simple_recs_tree.heading(col, text=label)
             self.simple_recs_tree.column(col, width=width, anchor="center" if col in {"rank", "id", "score"} else "w")
         self.simple_recs_tree.pack(fill="both", expand=True, pady=(7, 5))
         self.simple_recs_tree.bind("<<TreeviewSelect>>", self._explain_new_recommendation)
         self.simple_explanation = tk.Text(result, height=7, wrap="word", borderwidth=0, background="white", foreground="#111827", insertbackground="#111827", padx=5, pady=5)
         self.simple_explanation.pack(fill="x")
-        self.simple_explanation.insert("1.0", "Selecciona una recomendación para saber por qué puede gustarte.")
+        self.simple_explanation.insert("1.0", "Selecciona una recomanació per saber per què et pot agradar.")
         self.simple_explanation.configure(state="disabled")
 
     def _show_new_user_mode(self, mode: str) -> None:
         self.new_user_mode.set(mode)
         self.simple_user_frame.pack_forget()
         self.advanced_user_frame.pack_forget()
-        target = self.simple_user_frame if mode == "Sencillo" else self.advanced_user_frame
+        target = self.simple_user_frame if mode == "Senzill" else self.advanced_user_frame
         target.pack(fill="both", expand=True)
 
     def _generate_simple_recommendations(self) -> None:
@@ -497,7 +497,7 @@ class NewUserPanelMixin:
             self.generate_new_user_recommendations()
 
     def _sync_simple_profile(self) -> bool:
-        opinion_scores = {"No me gustó": 1.0, "Regular": 2.5, "Me gustó": 4.0, "Me encantó": 5.0}
+        opinion_scores = {"No em va agradar": 1.0, "Regular": 2.5, "Em va agradar": 4.0, "Em va encantar": 5.0}
         title_to_id = self.movies.set_index("title")["movieId"].to_dict()
         profile: dict[int, float] = {}
         for movie_var, opinion_var in zip(self.simple_movie_vars, self.simple_rating_vars):
@@ -505,10 +505,10 @@ class NewUserPanelMixin:
             if title in title_to_id:
                 profile[int(title_to_id[title])] = opinion_scores[opinion_var.get()]
         if len(profile) < 3:
-            messagebox.showwarning("Faltan películas", "Elige al menos tres películas diferentes para poder recomendarte.")
+            messagebox.showwarning("Falten pel·lícules", "Tria almenys tres pel·lícules diferents per poder recomanar-te.")
             return False
         self.new_profile = [{"movieId": movie_id, "rating": rating} for movie_id, rating in profile.items()]
-        self.new_user_model.set("Modelo híbrido")
+        self.new_user_model.set("Model híbrid")
         self.new_user_count.set(10)
         self.new_user_genre_boost.set(.30)
         self.new_user_diversity.set(.10)
@@ -542,11 +542,11 @@ class NewUserPanelMixin:
             ttk.Checkbutton(self.simple_genres_frame, text=genre, variable=variable).grid(
                 row=index // 4, column=index % 4, sticky="w", padx=4, pady=2
             )
-        popularity = self.ratings["movieId"].value_counts().rename("votos")
+        popularity = self.ratings["movieId"].value_counts().rename("vots")
         popular_titles = (
             self.movies[["movieId", "title"]]
             .merge(popularity, left_on="movieId", right_index=True, how="left")
-            .sort_values(["votos", "title"], ascending=[False, True])["title"]
+            .sort_values(["vots", "title"], ascending=[False, True])["title"]
             .head(250)
             .tolist()
         )
@@ -572,14 +572,14 @@ class NewUserPanelMixin:
     def _add_new_rating(self) -> None:
         selection = self.new_search_tree.selection()
         if not selection:
-            messagebox.showinfo("Selecciona una película", "Selecciona una película de la lista de búsqueda.")
+            messagebox.showinfo("Selecciona una pel·lícula", "Selecciona una pel·lícula de la llista de cerca.")
             return
         try:
             rating = self.new_user_rating.get()
             if not .5 <= rating <= 5:
                 raise ValueError
         except (tk.TclError, ValueError):
-            messagebox.showwarning("Nota no válida", "La nota debe estar entre 0,5 y 5.")
+            messagebox.showwarning("Nota no vàlida", "La nota ha d’estar entre 0,5 i 5.")
             return
         values = self.new_search_tree.item(selection[0], "values")
         movie_id = int(values[0])
@@ -613,7 +613,7 @@ class NewUserPanelMixin:
         for row in sorted(self.new_profile, key=lambda value: value["rating"], reverse=True):
             self.new_profile_tree.insert("", "end", values=(row["movieId"], titles.get(int(row["movieId"]), ""), f"{row['rating']:.1f}"))
         count = len(self.new_profile)
-        self.new_user_summary.set(f"{count} valoraciones añadidas" if count else "Añade al menos tres valoraciones.")
+        self.new_user_summary.set(f"{count} valoracions afegides" if count else "Afegeix almenys tres valoracions.")
 
     def _selected_new_genres(self) -> list[str]:
         return [self.new_genres_list.get(index) for index in self.new_genres_list.curselection()]
@@ -629,15 +629,15 @@ class NewUserPanelMixin:
     def generate_new_user_recommendations(self) -> None:
         try:
             if len(self.new_profile) < 3:
-                raise ValueError("Añade al menos tres películas valoradas para crear un perfil útil.")
+                raise ValueError("Afegeix almenys tres pel·lícules valorades per crear un perfil útil.")
             name = self.new_user_model.get()
             count = self.new_user_count.get()
             if not 1 <= count <= 100:
-                raise ValueError("La cantidad debe estar entre 1 y 100.")
+                raise ValueError("La quantitat ha d’estar entre 1 i 100.")
             boost = self.new_user_genre_boost.get()
             diversity = self.new_user_diversity.get()
             if not 0 <= boost <= 2 or not 0 <= diversity <= .9:
-                raise ValueError("Revisa los valores de impulso y diversidad.")
+                raise ValueError("Revisa els valors d’impuls i diversitat.")
             preferred = self._selected_new_genres()
             params = self._model_parameters()[name]
             new_id = int(self.ratings["userId"].max()) + 1
@@ -650,7 +650,7 @@ class NewUserPanelMixin:
                     matches = len(preferred_set.intersection(str(row.genres).split("|")))
                     adjustments[int(row.movieId)] = boost * matches / len(preferred_set)
         except (ValueError, tk.TclError) as error:
-            messagebox.showwarning("Perfil incompleto", str(error))
+            messagebox.showwarning("Perfil incomplet", str(error))
             return
 
         def worker():
@@ -664,11 +664,11 @@ class NewUserPanelMixin:
         def success(payload):
             self.active_new_user_model, self.new_user_recommendations, self.new_user_combined_ratings, self.active_new_user_id, self.active_new_preferred = payload
             self._display_new_user_recommendations()
-            label = self.new_user_name.get().strip() or f"Usuario {new_id}"
-            self.new_user_summary.set(f"{label}: {len(self.new_user_recommendations)} recomendaciones generadas")
-            self.status_text.set(f"Recomendaciones preparadas para {label}")
+            label = self.new_user_name.get().strip() or f"Usuari {new_id}"
+            self.new_user_summary.set(f"{label}: {len(self.new_user_recommendations)} recomanacions generades")
+            self.status_text.set(f"Recomanacions preparades per {label}")
 
-        self._run_async("Creando el perfil y entrenando el recomendador…", worker, success)
+        self._run_async("Creant el perfil i entrenant el recomanador…", worker, success)
 
     def _display_new_user_recommendations(self) -> None:
         _clear(self.new_recs_tree)
@@ -676,7 +676,7 @@ class NewUserPanelMixin:
         if self.new_user_recommendations is None:
             return
         for row in self.new_user_recommendations.itertuples(index=False):
-            values = (row.posición, row.movieId, row.title, row.genres, f"{row.predicción:.3f}")
+            values = (row.posició, row.movieId, row.title, row.genres, f"{row.predicció:.3f}")
             self.new_recs_tree.insert("", "end", values=values)
             self.simple_recs_tree.insert("", "end", values=values)
         for tree in (self.new_recs_tree, self.simple_recs_tree):
@@ -688,24 +688,24 @@ class NewUserPanelMixin:
     def _explain_new_recommendation(self, _event=None) -> None:
         tree = getattr(_event, "widget", None)
         if tree not in (self.new_recs_tree, self.simple_recs_tree):
-            tree = self.simple_recs_tree if self.new_user_mode.get() == "Sencillo" else self.new_recs_tree
+            tree = self.simple_recs_tree if self.new_user_mode.get() == "Senzill" else self.new_recs_tree
         selection = tree.selection()
         if not selection or self.active_new_user_model is None:
             return
         values = tree.item(selection[0], "values")
         movie_id, title, genres, score = int(values[1]), values[2], values[3], float(values[4])
         matches = sorted(set(str(genres).split("|")).intersection(getattr(self, "active_new_preferred", [])))
-        lines = [title, f"Nota estimada: {score:.3f} / 5", f"Géneros: {genres}", ""]
+        lines = [title, f"Nota estimada: {score:.3f} / 5", f"Gèneres: {genres}", ""]
         if matches:
-            lines.append(f"Coincide con los géneros preferidos: {', '.join(matches)}")
+            lines.append(f"Coincideix amb els gèneres preferits: {', '.join(matches)}")
         else:
-            lines.append("La posición procede del patrón de valoraciones introducido.")
+            lines.append("La posició prové del patró de valoracions introduït.")
         if isinstance(self.active_new_user_model, HybridRecommender):
             components = self.active_new_user_model.component_predictions(self.active_new_user_id, [movie_id])
             weights = self.active_new_user_model.weights
             total = sum(max(0.0, float(value)) for value in weights.values()) or 1.0
-            lines.extend(["", "Componentes del híbrido:"])
-            for key, label in [("base", "Base"), ("user", "KNN usuario"), ("item", "KNN ítem"), ("content", "Contenido")]:
+            lines.extend(["", "Components de l’híbrid:"])
+            for key, label in [("base", "Base"), ("user", "KNN usuari"), ("item", "KNN ítem"), ("content", "Contingut")]:
                 lines.append(f"• {label}: {components[key][0]:.3f} × {max(0, weights.get(key, 0)) / total:.1%}")
         target = self.simple_explanation if tree is self.simple_recs_tree else self.new_explanation
         target.configure(state="normal")
@@ -715,14 +715,14 @@ class NewUserPanelMixin:
 
     def save_new_user(self) -> None:
         if len(self.new_profile) < 3:
-            messagebox.showwarning("Perfil incompleto", "Añade al menos tres valoraciones antes de guardar el usuario.")
+            messagebox.showwarning("Perfil incomplet", "Afegeix almenys tres valoracions antes de desar l’usuari.")
             return
         new_id = int(self.ratings["userId"].max()) + 1
         profile = self._new_profile_dataframe(new_id)
         self.ratings = pd.concat([self.ratings, profile], ignore_index=True)
         if not hasattr(self, "user_names"):
             self.user_names = {}
-        self.user_names[new_id] = self.new_user_name.get().strip() or f"Usuario {new_id}"
+        self.user_names[new_id] = self.new_user_name.get().strip() or f"Usuari {new_id}"
         self.results = None
         self.fitted_models.clear()
         self.full_model_cache.clear()
@@ -730,5 +730,5 @@ class NewUserPanelMixin:
         self._refresh_dataset_views()
         self.rec_user.set(str(new_id))
         self._refresh_history()
-        self.status_text.set(f"Usuario {new_id} guardado con {len(profile)} valoraciones")
-        messagebox.showinfo("Usuario guardado", f"El perfil se ha añadido a la base activa con el ID {new_id}.\nGuarda la base como SQLite si quieres conservarlo al cerrar.")
+        self.status_text.set(f"Usuari {new_id} desat amb {len(profile)} valoracions")
+        messagebox.showinfo("Usuari desat", f"El perfil s’ha afegit a la base activa amb l’ID {new_id}.\nDesa la base com a SQLite si el vols conservar en tancar.")

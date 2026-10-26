@@ -1,4 +1,4 @@
-"""Motor de recomendación y evaluación para MovieLab."""
+"""Motor de recomanació i avaluació per MovieLab."""
 
 from .data import load_demo_data, load_movielens_files, load_sqlite_database, save_sqlite_database
 from .analysis import data_quality_report, genre_statistics, movie_statistics, popularity_curve, user_statistics

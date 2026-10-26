@@ -17,7 +17,7 @@ def _clip(values: np.ndarray, bounds: tuple[float, float]) -> np.ndarray:
 class BaselineRecommender:
     regularization: float = 10.0
     iterations: int = 10
-    name: str = "Modelo base"
+    name: str = "Model base"
 
     def fit(self, ratings: pd.DataFrame, movies: pd.DataFrame):
         self.ratings = ratings.copy()
@@ -56,7 +56,7 @@ class UserKNNRecommender:
     shrinkage: float = 10.0
     baseline_regularization: float = 10.0
     baseline_iterations: int = 10
-    name: str = "K-NN usuario-usuario"
+    name: str = "K-NN usuari-usuari"
 
     def fit(self, ratings: pd.DataFrame, movies: pd.DataFrame):
         self.ratings, self.movies = ratings.copy(), movies.copy()
@@ -163,7 +163,7 @@ class ContentBasedRecommender:
     genre_weight: int = 3
     baseline_regularization: float = 10.0
     baseline_iterations: int = 10
-    name: str = "Basado en contenido"
+    name: str = "Basat en contingut"
 
     def fit(self, ratings: pd.DataFrame, movies: pd.DataFrame):
         self.ratings, self.movies = ratings.copy(), movies.copy()
@@ -228,7 +228,7 @@ class HybridRecommender:
     content_genre_weight: int = 3
     baseline_regularization: float = 10.0
     baseline_iterations: int = 10
-    name: str = "Modelo híbrido"
+    name: str = "Model híbrid"
 
     def fit(self, ratings: pd.DataFrame, movies: pd.DataFrame):
         self.components = {
@@ -278,13 +278,13 @@ class HybridRecommender:
 
 def build_model(name: str, params: dict | None = None):
     aliases = {
-        "Modelo base": BaselineRecommender,
-        "K-NN usuario-usuario": UserKNNRecommender,
+        "Model base": BaselineRecommender,
+        "K-NN usuari-usuari": UserKNNRecommender,
         "K-NN ítem-ítem": ItemKNNRecommender,
-        "Basado en contenido": ContentBasedRecommender,
+        "Basat en contingut": ContentBasedRecommender,
     }
-    if name == "Modelo híbrido":
+    if name == "Model híbrid":
         return HybridRecommender(**(params or {}))
     if name not in aliases:
-        raise ValueError(f"Modelo desconocido: {name}")
+        raise ValueError(f"Model desconegut: {name}")
     return aliases[name](**(params or {}))

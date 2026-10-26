@@ -75,13 +75,13 @@ class ScrollableFrame(ttk.Frame):
 class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("MovieLab · Comparador de recomendadores")
+        self.root.title("MovieLab · Comparador de recomanadors")
         self.root.geometry("1380x860")
         self.root.minsize(1080, 700)
         self.root.configure(background=COLORS["background"])
 
         self.movies, self.ratings = load_demo_data(BASE_DIR / "data" / "movies_demo.db")
-        self.source_name = "Demostración integrada"
+        self.source_name = "Demostració integrada"
         self.results: pd.DataFrame | None = None
         self.recommendations: pd.DataFrame | None = None
         self.fitted_models: dict[str, object] = {}
@@ -131,20 +131,20 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.metric_var = tk.StringVar(value="RMSE")
 
         self.rec_user = tk.StringVar()
-        self.rec_model = tk.StringVar(value="Modelo híbrido")
+        self.rec_model = tk.StringVar(value="Model híbrid")
         self.rec_count = tk.IntVar(value=10)
-        self.rec_genre = tk.StringVar(value="Todos")
+        self.rec_genre = tk.StringVar(value="Tots")
         self.rec_year_min = tk.StringVar(value="")
         self.rec_year_max = tk.StringVar(value="")
         self.rec_min_votes = tk.IntVar(value=0)
         self.rec_exclude_seen = tk.BooleanVar(value=True)
         self.rec_diversity = tk.DoubleVar(value=0.0)
 
-        self.status_text = tk.StringVar(value="Listo")
+        self.status_text = tk.StringVar(value="Preparat")
         self.data_source_text = tk.StringVar()
         self.data_stats_text = tk.StringVar()
-        self.interpretation_text = tk.StringVar(value="Ejecuta una comparación para ver el análisis.")
-        self.optimization_text = tk.StringVar(value="Aún no se ha optimizado el híbrido.")
+        self.interpretation_text = tk.StringVar(value="Executa una comparació per veure l’anàlisi.")
+        self.optimization_text = tk.StringVar(value="Encara no s’ha optimitzat l’híbrid.")
 
     def _configure_styles(self) -> None:
         style = ttk.Style(self.root)
@@ -192,28 +192,28 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
     def _create_menu(self) -> None:
         menu = tk.Menu(self.root)
         file_menu = tk.Menu(menu, tearoff=False)
-        file_menu.add_command(label="Cargar carpeta MovieLens…", command=self.load_movielens_folder, accelerator="⌘O")
-        file_menu.add_command(label="Cargar dos archivos CSV…", command=self.load_csv_pair)
-        file_menu.add_command(label="Abrir base SQLite…", command=self.load_sqlite)
+        file_menu.add_command(label="Carregar carpeta MovieLens…", command=self.load_movielens_folder, accelerator="⌘O")
+        file_menu.add_command(label="Carregar dos fitxers CSV…", command=self.load_csv_pair)
+        file_menu.add_command(label="Obrir base SQLite…", command=self.load_sqlite)
         file_menu.add_separator()
-        file_menu.add_command(label="Guardar base como SQLite…", command=self.export_sqlite)
-        file_menu.add_command(label="Exportar comparación…", command=self.export_results)
-        file_menu.add_command(label="Exportar recomendaciones…", command=self.export_recommendations)
+        file_menu.add_command(label="Desar base com a SQLite…", command=self.export_sqlite)
+        file_menu.add_command(label="Exportar comparació…", command=self.export_results)
+        file_menu.add_command(label="Exportar recomanacions…", command=self.export_recommendations)
         file_menu.add_separator()
-        file_menu.add_command(label="Salir", command=self.root.destroy)
-        menu.add_cascade(label="Archivo", menu=file_menu)
+        file_menu.add_command(label="Sortir", command=self.root.destroy)
+        menu.add_cascade(label="Fitxer", menu=file_menu)
 
         data_menu = tk.Menu(menu, tearoff=False)
-        data_menu.add_command(label="Usar demostración integrada", command=self.reset_demo)
-        data_menu.add_command(label="Actualizar vistas", command=self._refresh_dataset_views)
-        menu.add_cascade(label="Datos", menu=data_menu)
+        data_menu.add_command(label="Utilitzar demostració integrada", command=self.reset_demo)
+        data_menu.add_command(label="Actualitzar vistes", command=self._refresh_dataset_views)
+        menu.add_cascade(label="Dades", menu=data_menu)
 
         run_menu = tk.Menu(menu, tearoff=False)
-        run_menu.add_command(label="Comparar algoritmos", command=self.run_comparison, accelerator="⌘R")
-        run_menu.add_command(label="Optimizar híbrido", command=self.optimize_hybrid)
-        run_menu.add_command(label="Generar recomendaciones", command=self.generate_recommendations, accelerator="⌘G")
-        run_menu.add_command(label="Recomendar a un usuario nuevo", command=lambda: self.notebook.select(self.new_user_tab))
-        menu.add_cascade(label="Ejecutar", menu=run_menu)
+        run_menu.add_command(label="Comparar algoritmes", command=self.run_comparison, accelerator="⌘R")
+        run_menu.add_command(label="Optimitzar híbrid", command=self.optimize_hybrid)
+        run_menu.add_command(label="Generar recomanacions", command=self.generate_recommendations, accelerator="⌘G")
+        run_menu.add_command(label="Recomanar a un usuari nou", command=lambda: self.notebook.select(self.new_user_tab))
+        menu.add_cascade(label="Executar", menu=run_menu)
         self.root.configure(menu=menu)
 
     def _create_layout(self) -> None:
@@ -222,7 +222,7 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         title_group = ttk.Frame(header, style="Header.TFrame")
         title_group.pack(side="left")
         ttk.Label(title_group, text="MOVIELAB", style="Title.TLabel").pack(anchor="w")
-        ttk.Label(title_group, text="Comparación y experimentación con sistemas de recomendación", style="Subtitle.TLabel").pack(anchor="w")
+        ttk.Label(title_group, text="Comparació i experimentació amb sistemes de recomanació", style="Subtitle.TLabel").pack(anchor="w")
         ttk.Label(header, textvariable=self.data_stats_text, style="Subtitle.TLabel", justify="right").pack(side="right")
 
         self.notebook = ttk.Notebook(self.root)
@@ -234,13 +234,13 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.recommendation_tab = ttk.Frame(self.notebook, padding=12)
         self.new_user_tab = ttk.Frame(self.notebook, padding=12)
         self.guide_tab = ttk.Frame(self.notebook, padding=12)
-        self.notebook.add(self.data_tab, text="  Datos  ")
-        self.notebook.add(self.analysis_tab, text="  Análisis  ")
-        self.notebook.add(self.config_tab, text="  Configuración  ")
-        self.notebook.add(self.comparison_tab, text="  Comparación  ")
-        self.notebook.add(self.recommendation_tab, text="  Recomendaciones  ")
-        self.notebook.add(self.new_user_tab, text="  Nuevo usuario  ")
-        self.notebook.add(self.guide_tab, text="  Guía  ")
+        self.notebook.add(self.data_tab, text="  Dades  ")
+        self.notebook.add(self.analysis_tab, text="  Anàlisi  ")
+        self.notebook.add(self.config_tab, text="  Configuració  ")
+        self.notebook.add(self.comparison_tab, text="  Comparació  ")
+        self.notebook.add(self.recommendation_tab, text="  Recomanacions  ")
+        self.notebook.add(self.new_user_tab, text="  Nou usuari  ")
+        self.notebook.add(self.guide_tab, text="  Guia  ")
 
         self._build_data_tab()
         self._build_analysis_tab()
@@ -259,15 +259,15 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
     def _build_data_tab(self) -> None:
         toolbar = ttk.Frame(self.data_tab)
         toolbar.pack(fill="x", pady=(0, 10))
-        ttk.Label(toolbar, text="Base de películas", style="Section.TLabel").pack(side="left")
+        ttk.Label(toolbar, text="Base de pel·lícules", style="Section.TLabel").pack(side="left")
         ttk.Button(toolbar, text="MovieLens…", command=self.load_movielens_folder).pack(side="right", padx=4)
-        ttk.Button(toolbar, text="Abrir SQLite…", command=self.load_sqlite).pack(side="right", padx=4)
-        ttk.Button(toolbar, text="Base de ejemplo", command=self.reset_demo).pack(side="right", padx=4)
+        ttk.Button(toolbar, text="Obrir SQLite…", command=self.load_sqlite).pack(side="right", padx=4)
+        ttk.Button(toolbar, text="Base d’exemple", command=self.reset_demo).pack(side="right", padx=4)
 
         cards = ttk.Frame(self.data_tab)
         cards.pack(fill="x", pady=(0, 10))
         self.stat_labels: dict[str, ttk.Label] = {}
-        for key, label in [("movies", "Películas"), ("users", "Usuarios"), ("ratings", "Valoraciones"), ("density", "Densidad")]:
+        for key, label in [("movies", "Pel·lícules"), ("users", "Usuaris"), ("ratings", "Valoracions"), ("density", "Densitat")]:
             card = ttk.Frame(cards, padding=14, style="Card.TFrame")
             card.pack(side="left", fill="x", expand=True, padx=4)
             ttk.Label(card, text=label, style="Muted.TLabel").pack(anchor="w")
@@ -285,7 +285,7 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         tree_frame = ttk.Frame(table_card, style="Card.TFrame")
         tree_frame.pack(fill="both", expand=True)
         self.movies_tree = ttk.Treeview(tree_frame, columns=("id", "title", "genres"), show="headings")
-        for column, text, width in [("id", "ID", 65), ("title", "Título", 300), ("genres", "Géneros", 300)]:
+        for column, text, width in [("id", "ID", 65), ("title", "Títol", 300), ("genres", "Gèneres", 300)]:
             self.movies_tree.heading(column, text=text)
             self.movies_tree.column(column, width=width, anchor="w")
         scroll = ttk.Scrollbar(tree_frame, orient="vertical", command=self.movies_tree.yview)
@@ -293,7 +293,7 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.movies_tree.pack(side="left", fill="both", expand=True)
         scroll.pack(side="right", fill="y")
 
-        ttk.Label(chart_card, text="Distribución de valoraciones", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
+        ttk.Label(chart_card, text="Distribució de valoracions", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w")
         self.data_figure = Figure(figsize=(5, 4), dpi=100, facecolor="white")
         self.data_axis = self.data_figure.add_subplot(111)
         self.data_canvas = FigureCanvasTkAgg(self.data_figure, master=chart_card)
@@ -314,77 +314,77 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         scrollable = ScrollableFrame(self.config_tab)
         scrollable.pack(fill="both", expand=True)
         body = scrollable.inner
-        ttk.Label(body, text="Configuración del experimento", style="Section.TLabel").pack(anchor="w", pady=(0, 10))
+        ttk.Label(body, text="Configuració de l’experiment", style="Section.TLabel").pack(anchor="w", pady=(0, 10))
 
-        models = ttk.LabelFrame(body, text="Algoritmos incluidos")
+        models = ttk.LabelFrame(body, text="Algoritmes inclosos")
         models.pack(fill="x", pady=7)
         for index, name in enumerate(MODEL_NAMES):
             ttk.Checkbutton(models, text=name, variable=self.model_vars[name]).grid(row=index // 3, column=index % 3, sticky="w", padx=12, pady=6)
 
         row = ttk.Frame(body)
         row.pack(fill="x")
-        validation = ttk.LabelFrame(row, text="Validación")
-        baseline = ttk.LabelFrame(row, text="Modelo base")
+        validation = ttk.LabelFrame(row, text="Validació")
+        baseline = ttk.LabelFrame(row, text="Model base")
         validation.pack(side="left", fill="both", expand=True, padx=(0, 5), pady=7)
         baseline.pack(side="left", fill="both", expand=True, padx=(5, 0), pady=7)
-        self._field(validation, 0, "Proporción de prueba", self.test_ratio, help_text="0,10 – 0,40")
-        self._field(validation, 1, "Tamaño del top-K", self.top_k, help_text="3 – 50")
-        self._field(validation, 2, "Nota relevante", self.relevance, help_text="2,5 – 5")
-        self._field(validation, 3, "Semilla aleatoria", self.seed)
-        self._field(baseline, 0, "Regularización", self.base_regularization, help_text="Reduce sobreajuste")
-        self._field(baseline, 1, "Iteraciones", self.base_iterations, help_text="1 – 100")
+        self._field(validation, 0, "Proporció de prova", self.test_ratio, help_text="0,10 – 0,40")
+        self._field(validation, 1, "Mida del top-K", self.top_k, help_text="3 – 50")
+        self._field(validation, 2, "Nota rellevant", self.relevance, help_text="2,5 – 5")
+        self._field(validation, 3, "Llavor aleatòria", self.seed)
+        self._field(baseline, 0, "Regularització", self.base_regularization, help_text="Redueix sobreajust")
+        self._field(baseline, 1, "Iteracions", self.base_iterations, help_text="1 – 100")
 
         knn_row = ttk.Frame(body)
         knn_row.pack(fill="x")
-        user_box = ttk.LabelFrame(knn_row, text="K-NN usuario-usuario")
+        user_box = ttk.LabelFrame(knn_row, text="K-NN usuari-usuari")
         item_box = ttk.LabelFrame(knn_row, text="K-NN ítem-ítem")
         user_box.pack(side="left", fill="both", expand=True, padx=(0, 5), pady=7)
         item_box.pack(side="left", fill="both", expand=True, padx=(5, 0), pady=7)
-        self._field(user_box, 0, "Número de vecinos", self.user_k, help_text="2 – 200")
+        self._field(user_box, 0, "Nombre de veïns", self.user_k, help_text="2 – 200")
         self._field(user_box, 1, "Similitud mínima", self.user_similarity, help_text="0 – 1")
-        self._field(user_box, 2, "Regularización", self.user_shrinkage, help_text="Solapamientos pequeños")
-        self._field(item_box, 0, "Número de vecinos", self.item_k, help_text="2 – 200")
+        self._field(user_box, 2, "Regularització", self.user_shrinkage, help_text="Solapaments petits")
+        self._field(item_box, 0, "Nombre de veïns", self.item_k, help_text="2 – 200")
         self._field(item_box, 1, "Similitud mínima", self.item_similarity, help_text="0 – 1")
-        self._field(item_box, 2, "Regularización", self.item_shrinkage, help_text="Solapamientos pequeños")
+        self._field(item_box, 2, "Regularització", self.item_shrinkage, help_text="Solapaments petits")
 
-        content_box = ttk.LabelFrame(body, text="Modelo basado en contenido")
+        content_box = ttk.LabelFrame(body, text="Model basat en contingut")
         content_box.pack(fill="x", pady=7)
-        ttk.Checkbutton(content_box, text="Incluir palabras del título", variable=self.content_title).grid(row=0, column=0, sticky="w", padx=8, pady=6)
-        ttk.Label(content_box, text="Peso relativo de los géneros", style="Card.TLabel").grid(row=0, column=1, padx=(30, 8))
+        ttk.Checkbutton(content_box, text="Incloure paraules del títol", variable=self.content_title).grid(row=0, column=0, sticky="w", padx=8, pady=6)
+        ttk.Label(content_box, text="Pes relatiu de els gèneres", style="Card.TLabel").grid(row=0, column=1, padx=(30, 8))
         ttk.Spinbox(content_box, from_=1, to=10, textvariable=self.content_genre_weight, width=7).grid(row=0, column=2)
 
-        hybrid = ttk.LabelFrame(body, text="Modelo híbrido")
+        hybrid = ttk.LabelFrame(body, text="Model híbrid")
         hybrid.pack(fill="x", pady=7)
-        labels = [("base", "Base"), ("user", "Usuario"), ("item", "Ítem"), ("content", "Contenido")]
+        labels = [("base", "Base"), ("user", "Usuari"), ("item", "Ítem"), ("content", "Contingut")]
         for column, (key, label) in enumerate(labels):
             holder = ttk.Frame(hybrid, style="Card.TFrame")
             holder.grid(row=0, column=column, sticky="ew", padx=10, pady=6)
             hybrid.columnconfigure(column, weight=1)
-            ttk.Label(holder, text=f"Peso {label}", style="Card.TLabel").pack(anchor="w")
+            ttk.Label(holder, text=f"Pes {label}", style="Card.TLabel").pack(anchor="w")
             ttk.Spinbox(holder, from_=0.0, to=1.0, increment=0.05, textvariable=self.hybrid_weights[key], width=8).pack(anchor="w", pady=3)
         ttk.Label(hybrid, textvariable=self.normalized_weights, style="Muted.TLabel").grid(row=1, column=0, columnspan=4, sticky="w", padx=10, pady=4)
         optimizer = ttk.Frame(hybrid, style="Card.TFrame")
         optimizer.grid(row=2, column=0, columnspan=4, sticky="ew", padx=8, pady=8)
-        ttk.Label(optimizer, text="Objetivo", style="Card.TLabel").pack(side="left")
+        ttk.Label(optimizer, text="Objectiu", style="Card.TLabel").pack(side="left")
         ttk.Combobox(optimizer, textvariable=self.optimization_objective, values=["RMSE", "MAE"], state="readonly", width=8).pack(side="left", padx=6)
-        ttk.Label(optimizer, text="Intentos", style="Card.TLabel").pack(side="left", padx=(12, 0))
+        ttk.Label(optimizer, text="Intents", style="Card.TLabel").pack(side="left", padx=(12, 0))
         ttk.Spinbox(optimizer, from_=10, to=1000, increment=10, textvariable=self.optimization_trials, width=8).pack(side="left", padx=6)
-        ttk.Button(optimizer, text="Optimizar pesos automáticamente", command=self.optimize_hybrid).pack(side="left", padx=12)
+        ttk.Button(optimizer, text="Optimitzar pesos automàticament", command=self.optimize_hybrid).pack(side="left", padx=12)
         ttk.Label(hybrid, textvariable=self.optimization_text, style="Muted.TLabel", wraplength=950).grid(row=3, column=0, columnspan=4, sticky="w", padx=10, pady=4)
 
         actions = ttk.Frame(body)
         actions.pack(fill="x", pady=14)
-        ttk.Button(actions, text="Restablecer parámetros", command=self.reset_parameters).pack(side="left")
-        ttk.Button(actions, text="Ejecutar comparación", command=self.run_comparison, style="Accent.TButton").pack(side="right")
+        ttk.Button(actions, text="Restablir paràmetres", command=self.reset_parameters).pack(side="left")
+        ttk.Button(actions, text="Executar comparació", command=self.run_comparison, style="Accent.TButton").pack(side="right")
         self._update_normalized_weights()
 
     def _build_comparison_tab(self) -> None:
         toolbar = ttk.Frame(self.comparison_tab)
         toolbar.pack(fill="x", pady=(0, 9))
-        ttk.Label(toolbar, text="Resultados comparables", style="Section.TLabel").pack(side="left")
-        ttk.Button(toolbar, text="Ejecutar", command=self.run_comparison, style="Accent.TButton").pack(side="right", padx=4)
+        ttk.Label(toolbar, text="Resultats comparables", style="Section.TLabel").pack(side="left")
+        ttk.Button(toolbar, text="Executar", command=self.run_comparison, style="Accent.TButton").pack(side="right", padx=4)
         ttk.Button(toolbar, text="Exportar CSV…", command=self.export_results).pack(side="right", padx=4)
-        ttk.Label(toolbar, text="Gráfico:").pack(side="right", padx=(12, 4))
+        ttk.Label(toolbar, text="Gràfic:").pack(side="right", padx=(12, 4))
         self.metric_combo = ttk.Combobox(toolbar, textvariable=self.metric_var, values=["RMSE", "MAE"], state="readonly", width=23)
         self.metric_combo.pack(side="right")
         self.metric_combo.bind("<<ComboboxSelected>>", lambda _e: self._update_comparison_chart())
@@ -411,38 +411,38 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.comparison_axis = self.comparison_figure.add_subplot(111)
         self.comparison_canvas = FigureCanvasTkAgg(self.comparison_figure, master=chart_card)
         self.comparison_canvas.get_tk_widget().pack(fill="both", expand=True)
-        ttk.Label(analysis_card, text="Lectura rápida", style="Card.TLabel", font=("Helvetica", 14, "bold")).pack(anchor="w")
+        ttk.Label(analysis_card, text="Lectura ràpida", style="Card.TLabel", font=("Helvetica", 14, "bold")).pack(anchor="w")
         ttk.Label(analysis_card, textvariable=self.interpretation_text, style="Card.TLabel", justify="left", wraplength=360).pack(anchor="w", pady=12)
-        ttk.Label(analysis_card, text="RMSE, MAE y tiempos: menor es mejor.\nPrecisión, recall, NDCG, cobertura, diversidad y novedad: mayor es mejor.", style="Muted.TLabel", justify="left").pack(anchor="w", pady=8)
+        ttk.Label(analysis_card, text="RMSE, MAE i temps: com més baix, millor.\nPrecisió, recall, NDCG, cobertura, diversitat i novetat: com més alt, millor.", style="Muted.TLabel", justify="left").pack(anchor="w", pady=8)
 
     def _build_recommendation_tab(self) -> None:
-        controls = ttk.LabelFrame(self.recommendation_tab, text="Opciones de recomendación")
+        controls = ttk.LabelFrame(self.recommendation_tab, text="Opcions de recomanació")
         controls.pack(fill="x", pady=(0, 10))
-        ttk.Label(controls, text="Usuario", style="Card.TLabel").grid(row=0, column=0, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Usuari", style="Card.TLabel").grid(row=0, column=0, padx=7, pady=6, sticky="w")
         self.user_combo = ttk.Combobox(controls, textvariable=self.rec_user, state="readonly", width=11)
         self.user_combo.grid(row=1, column=0, padx=7, pady=(0, 8))
         self.user_combo.bind("<<ComboboxSelected>>", lambda _e: self._refresh_history())
-        ttk.Label(controls, text="Algoritmo", style="Card.TLabel").grid(row=0, column=1, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Algoritme", style="Card.TLabel").grid(row=0, column=1, padx=7, pady=6, sticky="w")
         ttk.Combobox(controls, textvariable=self.rec_model, values=MODEL_NAMES, state="readonly", width=25).grid(row=1, column=1, padx=7, pady=(0, 8))
-        ttk.Label(controls, text="Cantidad", style="Card.TLabel").grid(row=0, column=2, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Quantitat", style="Card.TLabel").grid(row=0, column=2, padx=7, pady=6, sticky="w")
         ttk.Spinbox(controls, from_=1, to=100, textvariable=self.rec_count, width=8).grid(row=1, column=2, padx=7, pady=(0, 8))
-        ttk.Label(controls, text="Género", style="Card.TLabel").grid(row=0, column=3, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Gènere", style="Card.TLabel").grid(row=0, column=3, padx=7, pady=6, sticky="w")
         self.genre_combo = ttk.Combobox(controls, textvariable=self.rec_genre, state="readonly", width=17)
         self.genre_combo.grid(row=1, column=3, padx=7, pady=(0, 8))
-        ttk.Label(controls, text="Año desde", style="Card.TLabel").grid(row=0, column=4, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Any des de", style="Card.TLabel").grid(row=0, column=4, padx=7, pady=6, sticky="w")
         ttk.Entry(controls, textvariable=self.rec_year_min, width=9).grid(row=1, column=4, padx=7, pady=(0, 8))
-        ttk.Label(controls, text="Año hasta", style="Card.TLabel").grid(row=0, column=5, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Any fins a", style="Card.TLabel").grid(row=0, column=5, padx=7, pady=6, sticky="w")
         ttk.Entry(controls, textvariable=self.rec_year_max, width=9).grid(row=1, column=5, padx=7, pady=(0, 8))
-        ttk.Label(controls, text="Mín. votos", style="Card.TLabel").grid(row=0, column=6, padx=7, pady=6, sticky="w")
+        ttk.Label(controls, text="Mín. vots", style="Card.TLabel").grid(row=0, column=6, padx=7, pady=6, sticky="w")
         ttk.Spinbox(controls, from_=0, to=10000, textvariable=self.rec_min_votes, width=9).grid(row=1, column=6, padx=7, pady=(0, 8))
 
         second = ttk.Frame(controls, style="Card.TFrame")
         second.grid(row=2, column=0, columnspan=7, sticky="ew", padx=7, pady=(2, 8))
-        ttk.Checkbutton(second, text="Excluir películas ya valoradas", variable=self.rec_exclude_seen).pack(side="left")
-        ttk.Label(second, text="Diversidad", style="Card.TLabel").pack(side="left", padx=(22, 5))
+        ttk.Checkbutton(second, text="Excloure pel·lícules ja valorades", variable=self.rec_exclude_seen).pack(side="left")
+        ttk.Label(second, text="Diversitat", style="Card.TLabel").pack(side="left", padx=(22, 5))
         ttk.Scale(second, from_=0.0, to=0.8, variable=self.rec_diversity, orient="horizontal", length=150).pack(side="left")
-        ttk.Label(second, text="0 = máxima afinidad · 0,8 = más variedad", style="Muted.TLabel").pack(side="left", padx=5)
-        ttk.Button(second, text="Generar recomendaciones", command=self.generate_recommendations, style="Accent.TButton").pack(side="right")
+        ttk.Label(second, text="0 = màxima afinitat · 0,8 = més varietat", style="Muted.TLabel").pack(side="left", padx=5)
+        ttk.Button(second, text="Generar recomanacions", command=self.generate_recommendations, style="Accent.TButton").pack(side="right")
 
         panes = ttk.Panedwindow(self.recommendation_tab, orient="horizontal")
         panes.pack(fill="both", expand=True)
@@ -450,13 +450,13 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         detail_card = ttk.Frame(panes, padding=12, style="Card.TFrame")
         panes.add(rec_card, weight=3)
         panes.add(detail_card, weight=2)
-        ttk.Label(rec_card, text="Películas recomendadas", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w", pady=(0, 6))
+        ttk.Label(rec_card, text="Pel·lícules recomanades", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w", pady=(0, 6))
         rec_holder = ttk.Frame(rec_card, style="Card.TFrame")
         rec_holder.pack(fill="both", expand=True)
         self.rec_tree = ttk.Treeview(rec_holder, columns=("rank", "id", "title", "genres", "score"), show="headings")
         for col, label, width, anchor in [
-            ("rank", "#", 40, "center"), ("id", "ID", 55, "center"), ("title", "Título", 290, "w"),
-            ("genres", "Géneros", 260, "w"), ("score", "Nota", 70, "center")
+            ("rank", "#", 40, "center"), ("id", "ID", 55, "center"), ("title", "Títol", 290, "w"),
+            ("genres", "Gèneres", 260, "w"), ("score", "Nota", 70, "center")
         ]:
             self.rec_tree.heading(col, text=label)
             self.rec_tree.column(col, width=width, anchor=anchor)
@@ -466,15 +466,15 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         rec_scroll.pack(side="right", fill="y")
         self.rec_tree.bind("<<TreeviewSelect>>", self._show_recommendation_explanation)
 
-        ttk.Label(detail_card, text="Explicación", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w")
+        ttk.Label(detail_card, text="Explicació", style="Card.TLabel", font=("Helvetica", 13, "bold")).pack(anchor="w")
         self.explanation = tk.Text(detail_card, height=12, wrap="word", borderwidth=0, background="white", foreground=COLORS["text"], insertbackground=COLORS["text"], font=("Helvetica", 10), padx=4, pady=8)
         self.explanation.pack(fill="x")
-        self.explanation.insert("1.0", "Selecciona una recomendación para entender por qué aparece.")
+        self.explanation.insert("1.0", "Selecciona una recomanació per entendre per què apareix.")
         self.explanation.configure(state="disabled")
         ttk.Separator(detail_card).pack(fill="x", pady=8)
-        ttk.Label(detail_card, text="Historial del usuario", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(0, 5))
+        ttk.Label(detail_card, text="Historial de l’usuari", style="Card.TLabel", font=("Helvetica", 12, "bold")).pack(anchor="w", pady=(0, 5))
         self.history_tree = ttk.Treeview(detail_card, columns=("title", "rating"), show="headings", height=8)
-        self.history_tree.heading("title", text="Película")
+        self.history_tree.heading("title", text="Pel·lícula")
         self.history_tree.heading("rating", text="Nota")
         self.history_tree.column("title", width=260)
         self.history_tree.column("rating", width=55, anchor="center")
@@ -486,21 +486,21 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         guide.tag_configure("title", font=("Helvetica", 20, "bold"), foreground=COLORS["navy"])
         guide.tag_configure("heading", font=("Helvetica", 14, "bold"), foreground=COLORS["blue"])
         sections = [
-            ("title", "Cómo usar MovieLab\n"),
-            ("heading", "1. Elige los datos\n"),
-            (None, "Usa la demostración integrada, una carpeta MovieLens con movies.csv y ratings.csv, dos CSV separados o una base SQLite compatible.\n"),
-            ("heading", "2. Configura el experimento\n"),
-            (None, "Selecciona algoritmos, partición de prueba, vecinos, regularización, contenido y pesos del híbrido. Todos los modelos se evalúan con la misma partición para que la comparación sea justa.\n"),
-            ("heading", "3. Analiza la base\n"),
-            (None, "La pestaña Análisis permite buscar películas, estudiar la actividad de cada usuario, comparar géneros, detectar datos ausentes y observar la concentración de popularidad mediante la curva de cola larga.\n"),
+            ("title", "Com utilitzar MovieLab\n"),
+            ("heading", "1. Tria els dades\n"),
+            (None, "Utilitza la demostració integrada, una carpeta MovieLens amb movies.csv i ratings.csv, dos CSV separats o una base SQLite compatible.\n"),
+            ("heading", "2. Configura l’experiment\n"),
+            (None, "Selecciona els algoritmes, la partició de prova, els veïns, la regularització, el contingut i els pesos de l’híbrid. Tots els models s’avaluen amb la mateixa partició perquè la comparació sigui justa.\n"),
+            ("heading", "3. Analitza la base\n"),
+            (None, "La pestanya Anàlisi permet cercar pel·lícules, estudiar l’activitat de cada usuari, comparar gèneres, detectar dades absents i observar la concentració de popularitat mitjançant la corba de cua llarga.\n"),
             ("heading", "4. Compara\n"),
-            (None, "RMSE y MAE miden el error de nota. Precisión, recall y NDCG miden el ranking. Cobertura, diversidad y novedad muestran propiedades que la exactitud no captura. Los tiempos permiten comparar eficiencia.\n"),
-            ("heading", "5. Optimiza el híbrido\n"),
-            (None, "El optimizador prueba combinaciones de pesos sobre la partición reservada y conserva la mejor según RMSE o MAE. Para un trabajo académico, utiliza después otra partición final que no haya participado en la optimización.\n"),
-            ("heading", "6. Recomienda y explica\n"),
-            (None, "Filtra por género, año y popularidad. El control de diversidad reordena el resultado para evitar una lista demasiado repetitiva. Selecciona una fila para ver puntuaciones, popularidad, gustos del usuario y aportación de cada componente híbrido.\n"),
-            ("heading", "7. Introduce un usuario nuevo\n"),
-            (None, "En Nuevo usuario puedes elegir el formulario sencillo, con opiniones cotidianas y configuración automática, o el avanzado, con control del algoritmo y sus ajustes. En ambos casos necesitas al menos tres películas. Puedes recomendar inmediatamente o guardar sus valoraciones en la base activa.\n"),
+            (None, "RMSE i MAE mesuren l’error de nota. Precisió, recall i NDCG mesuren el rànquing. Cobertura, diversitat i novetat mostren propietats que l’exactitud no captura. Els temps permeten comparar l’eficiència.\n"),
+            ("heading", "5. Optimitza l’híbrid\n"),
+            (None, "L’optimitzador prova combinacions de pesos sobre la partició reservada i conserva la millor segons RMSE o MAE. Per a un treball acadèmic, utilitza després una altra partició final que no hagi participat en l’optimització.\n"),
+            ("heading", "6. Recomana i explica\n"),
+            (None, "Filtra per gènere, any i popularitat. El control de diversitat reordena el resultat per evitar una llista massa repetitiva. Selecciona una fila per veure puntuacions, popularitat, gustos de l’usuari i aportació de cada component híbrid.\n"),
+            ("heading", "7. Introdueix un usuari nou\n"),
+            (None, "A Nou usuari pots triar el formulari senzill, amb opinions quotidianes i configuració automàtica, o l’avançat, amb control de l’algoritme i els seus ajustos. En tots dos casos necessites almenys tres pel·lícules. Pots recomanar immediatament o desar les seves valoracions a la base activa.\n"),
         ]
         for tag, text in sections:
             guide.insert("end", text, tag or ())
@@ -516,33 +516,33 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         try:
             raw = {key: max(0.0, variable.get()) for key, variable in self.hybrid_weights.items()}
             total = sum(raw.values()) or 1.0
-            self.normalized_weights.set("Pesos normalizados: " + " · ".join(f"{key} {value / total:.0%}" for key, value in raw.items()))
+            self.normalized_weights.set("Pesos normalitzats: " + " · ".join(f"{key} {value / total:.0%}" for key, value in raw.items()))
         except (tk.TclError, ValueError):
-            self.normalized_weights.set("Introduce pesos numéricos válidos.")
+            self.normalized_weights.set("Introdueix pesos numèrics vàlids.")
 
     def _validate_configuration(self) -> None:
         if not 0.05 <= self.test_ratio.get() <= 0.5:
-            raise ValueError("La proporción de prueba debe estar entre 0,05 y 0,50.")
+            raise ValueError("La proporció de prova ha d’estar entre 0,05 i 0,50.")
         if not 1 <= self.top_k.get() <= 100:
-            raise ValueError("El top-K debe estar entre 1 y 100.")
+            raise ValueError("El top-K ha d’estar entre 1 i 100.")
         if not 0.5 <= self.relevance.get() <= 5.0:
-            raise ValueError("La nota relevante debe estar entre 0,5 y 5.")
+            raise ValueError("La nota rellevant ha d’estar entre 0,5 i 5.")
         if self.user_k.get() < 1 or self.item_k.get() < 1:
-            raise ValueError("El número de vecinos debe ser positivo.")
+            raise ValueError("El nombre de veïns ha de ser positiu.")
         if not 0 <= self.user_similarity.get() <= 1 or not 0 <= self.item_similarity.get() <= 1:
-            raise ValueError("La similitud mínima debe estar entre 0 y 1.")
+            raise ValueError("La similitud mínima ha d’estar entre 0 i 1.")
         if self.base_regularization.get() < 0 or self.base_iterations.get() < 1:
-            raise ValueError("Revisa la regularización y las iteraciones del modelo base.")
+            raise ValueError("Revisa la regularització i les iteracions del model base.")
 
     def _model_parameters(self) -> dict[str, dict]:
         base = {"regularization": self.base_regularization.get(), "iterations": self.base_iterations.get()}
         common_baseline = {"baseline_regularization": self.base_regularization.get(), "baseline_iterations": self.base_iterations.get()}
         return {
-            "Modelo base": base,
-            "K-NN usuario-usuario": {"k": self.user_k.get(), "min_similarity": self.user_similarity.get(), "shrinkage": self.user_shrinkage.get(), **common_baseline},
+            "Model base": base,
+            "K-NN usuari-usuari": {"k": self.user_k.get(), "min_similarity": self.user_similarity.get(), "shrinkage": self.user_shrinkage.get(), **common_baseline},
             "K-NN ítem-ítem": {"k": self.item_k.get(), "min_similarity": self.item_similarity.get(), "shrinkage": self.item_shrinkage.get(), **common_baseline},
-            "Basado en contenido": {"use_title": self.content_title.get(), "genre_weight": self.content_genre_weight.get(), **common_baseline},
-            "Modelo híbrido": {
+            "Basat en contingut": {"use_title": self.content_title.get(), "genre_weight": self.content_genre_weight.get(), **common_baseline},
+            "Model híbrid": {
                 "weights": {key: variable.get() for key, variable in self.hybrid_weights.items()},
                 "user_k": self.user_k.get(), "item_k": self.item_k.get(),
                 "user_min_similarity": self.user_similarity.get(), "item_min_similarity": self.item_similarity.get(),
@@ -554,7 +554,7 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
 
     def _run_async(self, status: str, worker, success) -> None:
         if self.busy:
-            messagebox.showinfo("MovieLab", "Ya hay una operación en curso.")
+            messagebox.showinfo("MovieLab", "Ja hi ha una operació en curs.")
             return
         self.busy = True
         self.status_text.set(status)
@@ -588,8 +588,8 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
     def _finish_error(self, error: Exception, details: str) -> None:
         self.progress.stop()
         self.busy = False
-        self.status_text.set("La operación no se pudo completar")
-        messagebox.showerror("Error", f"{error}\n\nDetalle técnico:\n{details[-1200:]}")
+        self.status_text.set("L’operació no s’ha pogut completar")
+        messagebox.showerror("Error", f"{error}\n\nDetalle tècnic:\n{details[-1200:]}")
 
     def _finish_success(self, result, callback) -> None:
         self.progress.stop()
@@ -597,36 +597,36 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         try:
             callback(result)
         except Exception as error:
-            self.status_text.set("Error al mostrar el resultado")
+            self.status_text.set("Error en mostrar el resultat")
             messagebox.showerror("Error", str(error))
 
     def _apply_dataset(self, movies: pd.DataFrame, ratings: pd.DataFrame, source: str) -> None:
         if movies.empty or ratings.empty:
-            raise ValueError("La base de datos no contiene películas y valoraciones utilizables.")
+            raise ValueError("La base de dades no conté pel·lícules i valoracions utilitzables.")
         if ratings["userId"].nunique() < 2:
-            raise ValueError("Se necesitan valoraciones de al menos dos usuarios.")
+            raise ValueError("Calen valoracions d’almenys dos usuaris.")
         if movies["movieId"].nunique() > 2500:
-            reduce = messagebox.askyesno("Base grande", "La base contiene más de 2.500 películas. Las matrices K-NN pueden usar mucha memoria.\n\n¿Limitarla a las 1.500 películas y 2.000 usuarios con más valoraciones?")
-            if reduce:
+            redueix = messagebox.askyesno("Base gran", "La base conté més de 2.500 pel·lícules. Les matrius K-NN poden utilitzar molta memòria.\n\nVoleu limitar-la a les 1.500 pel·lícules i 2.000 usuaris amb més valoracions?")
+            if redueix:
                 users = ratings["userId"].value_counts().head(2000).index
                 ratings = ratings[ratings["userId"].isin(users)]
                 items = ratings["movieId"].value_counts().head(1500).index
                 ratings = ratings[ratings["movieId"].isin(items)]
                 movies = movies[movies["movieId"].isin(items)]
-                source += " (muestra limitada)"
+                source += " (mostra limitada)"
         counts = ratings["userId"].value_counts()
         valid_users = counts[counts >= 4].index
         ratings = ratings[ratings["userId"].isin(valid_users)].reset_index(drop=True)
         movies = movies.reset_index(drop=True)
         if ratings.empty:
-            raise ValueError("No quedan usuarios con al menos cuatro valoraciones.")
+            raise ValueError("No queden usuaris amb almenys quatre valoracions.")
         self.movies, self.ratings, self.source_name = movies, ratings, source
         self.results = None
         self.recommendations = None
         self.fitted_models.clear()
         self.full_model_cache.clear()
         self._refresh_dataset_views()
-        self.status_text.set(f"Datos cargados: {source}")
+        self.status_text.set(f"Dades carregades: {source}")
 
     def load_movielens_folder(self) -> None:
         folder = filedialog.askdirectory(title="Selecciona la carpeta de MovieLens")
@@ -634,12 +634,12 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             return
         movies_path, ratings_path = Path(folder) / "movies.csv", Path(folder) / "ratings.csv"
         if not movies_path.exists() or not ratings_path.exists():
-            messagebox.showerror("Archivos no encontrados", "La carpeta debe contener movies.csv y ratings.csv.")
+            messagebox.showerror("Fitxers no trobats", "La carpeta ha de contenir movies.csv i ratings.csv.")
             return
         try:
             self._apply_dataset(*load_movielens_files(movies_path, ratings_path), f"MovieLens · {Path(folder).name}")
         except Exception as error:
-            messagebox.showerror("No se pudo abrir MovieLens", str(error))
+            messagebox.showerror("No s’ha pogut obrir MovieLens", str(error))
 
     def load_csv_pair(self) -> None:
         movies_path = filedialog.askopenfilename(title="Selecciona movies.csv", filetypes=[("CSV", "*.csv")])
@@ -649,33 +649,33 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         if not ratings_path:
             return
         try:
-            self._apply_dataset(*load_movielens_files(movies_path, ratings_path), "Archivos CSV")
+            self._apply_dataset(*load_movielens_files(movies_path, ratings_path), "Fitxers CSV")
         except Exception as error:
-            messagebox.showerror("No se pudieron abrir los CSV", str(error))
+            messagebox.showerror("No s’han pogut obrir els CSV", str(error))
 
     def load_sqlite(self) -> None:
-        path = filedialog.askopenfilename(title="Abrir base SQLite", filetypes=[("SQLite", "*.db *.sqlite *.sqlite3"), ("Todos", "*.*")])
+        path = filedialog.askopenfilename(title="Obrir base SQLite", filetypes=[("SQLite", "*.db *.sqlite *.sqlite3"), ("Tots", "*.*")])
         if not path:
             return
         try:
             self._apply_dataset(*load_sqlite_database(path), f"SQLite · {Path(path).name}")
         except Exception as error:
-            messagebox.showerror("No se pudo abrir la base", str(error))
+            messagebox.showerror("No s’ha pogut obrir la base", str(error))
 
     def reset_demo(self) -> None:
         try:
-            self._apply_dataset(*load_demo_data(BASE_DIR / "data" / "movies_demo.db"), "Demostración integrada")
+            self._apply_dataset(*load_demo_data(BASE_DIR / "data" / "movies_demo.db"), "Demostració integrada")
         except Exception as error:
             messagebox.showerror("Error", str(error))
 
     def export_sqlite(self) -> None:
-        path = filedialog.asksaveasfilename(title="Guardar base SQLite", defaultextension=".db", filetypes=[("SQLite", "*.db")])
+        path = filedialog.asksaveasfilename(title="Desar base SQLite", defaultextension=".db", filetypes=[("SQLite", "*.db")])
         if path:
             try:
                 save_sqlite_database(self.movies, self.ratings, path)
-                self.status_text.set(f"Base guardada en {Path(path).name}")
+                self.status_text.set(f"Base desada a {Path(path).name}")
             except Exception as error:
-                messagebox.showerror("No se pudo guardar", str(error))
+                messagebox.showerror("No s’ha pogut desar", str(error))
 
     def _refresh_dataset_views(self) -> None:
         movie_count = self.movies["movieId"].nunique()
@@ -685,8 +685,8 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         values = {"movies": f"{movie_count:,}", "users": f"{user_count:,}", "ratings": f"{rating_count:,}", "density": f"{density:.2f}%"}
         for key, value in values.items():
             self.stat_labels[key].configure(text=value)
-        self.data_source_text.set(f"Catálogo · {self.source_name}")
-        self.data_stats_text.set(f"{movie_count:,} películas · {user_count:,} usuarios · {rating_count:,} valoraciones")
+        self.data_source_text.set(f"Catàleg · {self.source_name}")
+        self.data_stats_text.set(f"{movie_count:,} pel·lícules · {user_count:,} usuaris · {rating_count:,} valoracions")
 
         _clear_tree(self.movies_tree)
         for row in self.movies.head(500).itertuples(index=False):
@@ -696,7 +696,7 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.data_axis.clear()
         self.data_axis.bar([str(value) for value in distribution.index], distribution.values, color=COLORS["blue"])
         self.data_axis.set_xlabel("Nota")
-        self.data_axis.set_ylabel("Número de valoraciones")
+        self.data_axis.set_ylabel("Nombre de valoracions")
         self.data_axis.grid(axis="y", alpha=0.2)
         self.data_figure.tight_layout()
         self.data_canvas.draw_idle()
@@ -706,8 +706,8 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         if users:
             self.rec_user.set(users[0])
         genres = sorted({genre for value in self.movies["genres"].dropna() for genre in str(value).split("|")})
-        self.genre_combo.configure(values=["Todos", *genres])
-        self.rec_genre.set("Todos")
+        self.genre_combo.configure(values=["Tots", *genres])
+        self.rec_genre.set("Tots")
         self._refresh_history()
         self._refresh_analysis_views()
         self._refresh_new_user_sources()
@@ -729,21 +729,21 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.content_genre_weight.set(3)
         for key, value in {"base": 0.10, "user": 0.30, "item": 0.30, "content": 0.30}.items():
             self.hybrid_weights[key].set(value)
-        self.optimization_text.set("Parámetros restablecidos.")
+        self.optimization_text.set("Paràmetres restablerts.")
 
     def run_comparison(self) -> None:
         try:
             self._validate_configuration()
             selected = [name for name, variable in self.model_vars.items() if variable.get()]
             if not selected:
-                raise ValueError("Selecciona al menos un algoritmo.")
+                raise ValueError("Selecciona almenys un algoritme.")
             params = self._model_parameters()
             train, test = train_test_split_by_user(self.ratings, self.test_ratio.get(), self.seed.get())
             if test.empty:
-                raise ValueError("No hay suficientes valoraciones para crear una prueba.")
+                raise ValueError("No hi ha prou valoracions per crear una prova.")
             top_k, relevance = self.top_k.get(), self.relevance.get()
         except (ValueError, tk.TclError) as error:
-            messagebox.showwarning("Revisa la configuración", str(error))
+            messagebox.showwarning("Revisa la configuració", str(error))
             return
 
         def worker():
@@ -753,9 +753,9 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             self.results, self.fitted_models = payload
             self._display_results()
             self.notebook.select(self.comparison_tab)
-            self.status_text.set(f"Comparación completada · {len(train):,} entrenamiento / {len(test):,} prueba")
+            self.status_text.set(f"Comparació completada · {len(train):,} entrenament / {len(test):,} prova")
 
-        self._run_async("Entrenando y evaluando algoritmos…", worker, success)
+        self._run_async("Entrenant i avaluant algoritmes…", worker, success)
 
     def _display_results(self) -> None:
         if self.results is None:
@@ -764,26 +764,26 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         self.results_tree.configure(columns=columns)
         for column in columns:
             self.results_tree.heading(column, text=column)
-            width = 205 if column == "Algoritmo" else max(95, min(170, len(column) * 8))
-            self.results_tree.column(column, width=width, anchor="w" if column == "Algoritmo" else "center")
+            width = 205 if column == "Algoritme" else max(95, min(170, len(column) * 8))
+            self.results_tree.column(column, width=width, anchor="w" if column == "Algoritme" else "center")
         _clear_tree(self.results_tree)
         for _, row in self.results.iterrows():
-            values = [row[col] if col == "Algoritmo" else f"{float(row[col]):.4f}" for col in columns]
+            values = [row[col] if col == "Algoritme" else f"{float(row[col]):.4f}" for col in columns]
             self.results_tree.insert("", "end", values=values)
 
-        numeric = [column for column in columns if column != "Algoritmo"]
+        numeric = [column for column in columns if column != "Algoritme"]
         self.metric_combo.configure(values=numeric)
         if self.metric_var.get() not in numeric:
             self.metric_var.set(numeric[0])
         self._update_comparison_chart()
         rmse_best = self.results.loc[self.results["RMSE"].idxmin()]
         ndcg_col = next((c for c in columns if c.startswith("NDCG@")), None)
-        fastest = self.results.loc[self.results["Tiempo entrenamiento (s)"].idxmin()]
-        text = f"Mejor error de valoración\n{rmse_best['Algoritmo']} · RMSE {rmse_best['RMSE']:.3f}\n\n"
+        fastest = self.results.loc[self.results["Temps entrenament (s)"].idxmin()]
+        text = f"Millor error de valoració\n{rmse_best['Algoritme']} · RMSE {rmse_best['RMSE']:.3f}\n\n"
         if ndcg_col:
-            ranking_best = self.results.loc[self.results[ndcg_col].idxmax()]
-            text += f"Mejor ranking\n{ranking_best['Algoritmo']} · {ndcg_col} {ranking_best[ndcg_col]:.3f}\n\n"
-        text += f"Entrenamiento más rápido\n{fastest['Algoritmo']} · {fastest['Tiempo entrenamiento (s)']:.3f} s"
+            rànquing_best = self.results.loc[self.results[ndcg_col].idxmax()]
+            text += f"Millor rànquing\n{rànquing_best['Algoritme']} · {ndcg_col} {rànquing_best[ndcg_col]:.3f}\n\n"
+        text += f"Entrenament més ràpid\n{fastest['Algoritme']} · {fastest['Temps entrenament (s)']:.3f} s"
         self.interpretation_text.set(text)
 
     def _update_comparison_chart(self) -> None:
@@ -791,8 +791,8 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             return
         metric = self.metric_var.get()
         values = self.results[metric].to_numpy(dtype=float)
-        labels = self.results["Algoritmo"].str.replace("K-NN ", "KNN ", regex=False).to_list()
-        lower_is_better = metric in {"RMSE", "MAE", "Tiempo entrenamiento (s)", "Tiempo predicción (s)", "Tiempo recomendación (s)"}
+        labels = self.results["Algoritme"].str.replace("K-NN ", "KNN ", regex=False).to_list()
+        lower_is_better = metric in {"RMSE", "MAE", "Temps entrenament (s)", "Temps predicció (s)", "Temps recomanació (s)"}
         best_index = int(np.argmin(values) if lower_is_better else np.argmax(values))
         colors = [COLORS["blue"]] * len(values)
         colors[best_index] = COLORS["green"]
@@ -811,13 +811,13 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             self._validate_configuration()
             trials = self.optimization_trials.get()
             if not 10 <= trials <= 2000:
-                raise ValueError("Los intentos deben estar entre 10 y 2.000.")
+                raise ValueError("Els intents han d’estar entre 10 i 2.000.")
             objective = self.optimization_objective.get()
             seed = self.seed.get()
             params = self._model_parameters()
             train, validation = train_test_split_by_user(self.ratings, self.test_ratio.get(), seed)
         except (ValueError, tk.TclError) as error:
-            messagebox.showwarning("Revisa la configuración", str(error))
+            messagebox.showwarning("Revisa la configuració", str(error))
             return
 
         def worker():
@@ -828,16 +828,16 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             for key, value in weights.items():
                 self.hybrid_weights[key].set(round(value, 4))
             best = attempts.iloc[0]
-            self.optimization_text.set(f"Mejor combinación de {len(attempts)}: {objective} {best[objective]:.4f} · " + " · ".join(f"{key} {weights[key]:.1%}" for key in ["base", "user", "item", "content"]))
-            self.status_text.set("Pesos híbridos optimizados y aplicados")
-            messagebox.showinfo("Optimización terminada", "Se han aplicado los mejores pesos encontrados al modelo híbrido.")
+            self.optimization_text.set(f"Millor combinació de {len(attempts)}: {objective} {best[objective]:.4f} · " + " · ".join(f"{key} {weights[key]:.1%}" for key in ["base", "user", "item", "content"]))
+            self.status_text.set("Pesos híbrids optimitzats i aplicats")
+            messagebox.showinfo("Optimització acabada", "S’han aplicat els millors pesos trobats al model híbrid.")
 
-        self._run_async("Optimizando pesos del modelo híbrido…", worker, success)
+        self._run_async("Optimitzant pesos del model híbrid…", worker, success)
 
     def _recommendation_candidates(self) -> list[int]:
         table = self.movies.copy()
         genre = self.rec_genre.get()
-        if genre and genre != "Todos":
+        if genre and genre != "Tots":
             table = table[table["genres"].fillna("").str.split("|").apply(lambda values: genre in values)]
         years = table["title"].map(_year_from_title)
         if self.rec_year_min.get().strip():
@@ -860,16 +860,16 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             name = self.rec_model.get()
             count = self.rec_count.get()
             if not 1 <= count <= 100:
-                raise ValueError("La cantidad debe estar entre 1 y 100.")
+                raise ValueError("La quantitat ha d’estar entre 1 i 100.")
             candidates = self._recommendation_candidates()
             if not candidates:
-                raise ValueError("Ninguna película cumple los filtros actuales.")
+                raise ValueError("Cap pel·lícula compleix els filtres actuals.")
             params = self._model_parameters()[name]
             diversity = self.rec_diversity.get()
             exclude_seen = self.rec_exclude_seen.get()
             signature = (self.source_name, len(self.ratings), name, repr(params))
         except (ValueError, tk.TclError) as error:
-            messagebox.showwarning("Revisa las opciones", str(error))
+            messagebox.showwarning("Revisa les opcions", str(error))
             return
 
         def worker():
@@ -884,16 +884,16 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
             self.active_recommendation_model, self.recommendations = payload
             self._display_recommendations()
             self.notebook.select(self.recommendation_tab)
-            self.status_text.set(f"{len(self.recommendations)} recomendaciones generadas para el usuario {user}")
+            self.status_text.set(f"{len(self.recommendations)} recomanacions generades per l’usuari {user}")
 
-        self._run_async("Calculando recomendaciones…", worker, success)
+        self._run_async("Calculant recomanacions…", worker, success)
 
     def _display_recommendations(self) -> None:
         _clear_tree(self.rec_tree)
         if self.recommendations is None:
             return
         for row in self.recommendations.itertuples(index=False):
-            self.rec_tree.insert("", "end", values=(row.posición, row.movieId, row.title, row.genres, f"{row.predicción:.3f}"))
+            self.rec_tree.insert("", "end", values=(row.posició, row.movieId, row.title, row.genres, f"{row.predicció:.3f}"))
         children = self.rec_tree.get_children()
         if children:
             self.rec_tree.selection_set(children[0])
@@ -913,24 +913,24 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
         liked_genres = liked["genres"].str.split("|").explode().value_counts().head(4).index.tolist()
         shared = [genre for genre in str(genres).split("|") if genre in liked_genres]
         lines = [
-            title, f"Nota estimada: {score:.3f} / 5", f"Géneros: {genres}", "",
-            f"Popularidad en la base: {len(movie_ratings)} valoraciones",
-            f"Nota media real: {movie_ratings.mean():.2f}" if len(movie_ratings) else "Sin valoraciones previas",
-            f"Géneros preferidos del usuario: {', '.join(liked_genres) or 'sin datos suficientes'}",
+            title, f"Nota estimada: {score:.3f} / 5", f"Gèneres: {genres}", "",
+            f"Popularitat a la base: {len(movie_ratings)} valoracions",
+            f"Nota mitjana real: {movie_ratings.mean():.2f}" if len(movie_ratings) else "Sense valoracions prèvies",
+            f"Gèneres preferits de l’usuari: {', '.join(liked_genres) or 'sense prou dades'}",
         ]
         if shared:
-            lines.append(f"Coincidencia con sus gustos: {', '.join(shared)}")
+            lines.append(f"Coincidència amb els seus gustos: {', '.join(shared)}")
         if isinstance(self.active_recommendation_model, HybridRecommender):
             components = self.active_recommendation_model.component_predictions(user, [movie_id])
             raw_weights = self.active_recommendation_model.weights
             total = sum(max(0.0, float(value)) for value in raw_weights.values()) or 1.0
-            lines.extend(["", "Aportación del modelo híbrido:"])
-            names = {"base": "Base", "user": "KNN usuario", "item": "KNN ítem", "content": "Contenido"}
+            lines.extend(["", "Aportació del model híbrid:"])
+            names = {"base": "Base", "user": "KNN usuari", "item": "KNN ítem", "content": "Contingut"}
             for key in ["base", "user", "item", "content"]:
                 weight = max(0.0, float(raw_weights.get(key, 0))) / total
                 lines.append(f"• {names[key]}: {components[key][0]:.3f} × {weight:.1%}")
         if self.rec_diversity.get() > 0:
-            lines.extend(["", f"La lista fue reordenada con diversidad {self.rec_diversity.get():.2f}."])
+            lines.extend(["", f"La llista s’ha reordenat amb diversitat {self.rec_diversity.get():.2f}."])
         self.explanation.configure(state="normal")
         self.explanation.delete("1.0", "end")
         self.explanation.insert("1.0", "\n".join(lines))
@@ -950,21 +950,21 @@ class MovieLabDesktop(AnalysisPanelMixin, NewUserPanelMixin):
 
     def export_results(self) -> None:
         if self.results is None:
-            messagebox.showinfo("Sin resultados", "Primero ejecuta una comparación.")
+            messagebox.showinfo("Sense resultats", "Primer executa una comparació.")
             return
-        path = filedialog.asksaveasfilename(title="Exportar comparación", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
+        path = filedialog.asksaveasfilename(title="Exportar comparació", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
         if path:
             self.results.to_csv(path, index=False)
-            self.status_text.set(f"Comparación exportada a {Path(path).name}")
+            self.status_text.set(f"Comparació exportada a {Path(path).name}")
 
     def export_recommendations(self) -> None:
         if self.recommendations is None:
-            messagebox.showinfo("Sin recomendaciones", "Primero genera recomendaciones.")
+            messagebox.showinfo("Sense recomanacions", "Primer genera recomanacions.")
             return
-        path = filedialog.asksaveasfilename(title="Exportar recomendaciones", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
+        path = filedialog.asksaveasfilename(title="Exportar recomanacions", defaultextension=".csv", filetypes=[("CSV", "*.csv")])
         if path:
             self.recommendations.to_csv(path, index=False)
-            self.status_text.set(f"Recomendaciones exportadas a {Path(path).name}")
+            self.status_text.set(f"Recomanacions exportades a {Path(path).name}")
 
 
 def main() -> None:

@@ -1,4 +1,4 @@
-"""Punto de entrada de la aplicación de escritorio MovieLab."""
+"""Punt d’entrada de l’aplicació d’escriptori MovieLab."""
 
 from desktop_app import main
 

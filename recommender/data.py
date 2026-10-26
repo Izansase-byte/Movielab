@@ -95,9 +95,9 @@ def _generate_demo_ratings(movies: pd.DataFrame, n_users: int = 90, seed: int = 
         interest = movie_features @ tastes + quality + rng.normal(0, 0.3, len(movies))
         probs = np.exp(interest - interest.max()) + 0.08
         chosen = rng.choice(len(movies), size=activity, replace=False, p=probs / probs.sum())
-        generosity = rng.normal(0.0, 0.28)
+        generesity = rng.normal(0.0, 0.28)
         for idx in chosen:
-            raw = 2.65 + generosity + 0.62 * interest[idx] + rng.normal(0, 0.48)
+            raw = 2.65 + generesity + 0.62 * interest[idx] + rng.normal(0, 0.48)
             rating = float(np.clip(np.round(raw * 2) / 2, 0.5, 5.0))
             rows.append((user_id, int(movies.iloc[idx]["movieId"]), rating, timestamp))
             timestamp += int(rng.integers(100, 5000))
@@ -125,7 +125,7 @@ def load_sqlite_database(db_path: str | Path) -> tuple[pd.DataFrame, pd.DataFram
             for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
         }
         if not {"movies", "ratings"}.issubset(tables):
-            raise ValueError("La base SQLite debe contener las tablas 'movies' y 'ratings'.")
+            raise ValueError("La base SQLite ha de contenir les taules 'movies' i 'ratings'.")
         movies = pd.read_sql_query("SELECT * FROM movies", connection)
         ratings = pd.read_sql_query("SELECT * FROM ratings", connection)
     return _normalize_dataframes(movies, ratings)
@@ -148,9 +148,9 @@ def _normalize_dataframes(movies: pd.DataFrame, ratings: pd.DataFrame) -> tuple[
     required_movies = {"movieId", "title", "genres"}
     required_ratings = {"userId", "movieId", "rating"}
     if not required_movies.issubset(movies.columns):
-        raise ValueError(f"movies.csv debe contener: {', '.join(sorted(required_movies))}")
+        raise ValueError(f"movies.csv ha de contenir: {', '.join(sorted(required_movies))}")
     if not required_ratings.issubset(ratings.columns):
-        raise ValueError(f"ratings.csv debe contener: {', '.join(sorted(required_ratings))}")
+        raise ValueError(f"ratings.csv ha de contenir: {', '.join(sorted(required_ratings))}")
     movies = movies[["movieId", "title", "genres"]].copy()
     keep = ["userId", "movieId", "rating"] + (["timestamp"] if "timestamp" in ratings.columns else [])
     ratings = ratings[keep].dropna(subset=["userId", "movieId", "rating"]).copy()

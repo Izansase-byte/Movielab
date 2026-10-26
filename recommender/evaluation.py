@@ -11,11 +11,11 @@ from .models import build_model
 
 
 MODEL_NAMES = [
-    "Modelo base",
-    "K-NN usuario-usuario",
+    "Model base",
+    "K-NN usuari-usuari",
     "K-NN ítem-ítem",
-    "Basado en contenido",
-    "Modelo híbrido",
+    "Basat en contingut",
+    "Model híbrid",
 ]
 
 
@@ -56,7 +56,7 @@ def recommend_for_user(
         if int(i) in allowed and (not exclude_seen or int(i) not in seen)
     ]
     if not candidates:
-        return pd.DataFrame(columns=["movieId", "title", "genres", "predicción"])
+        return pd.DataFrame(columns=["movieId", "title", "genres", "predicció"])
     scores = model.predict(int(user_id), candidates)
     if score_adjustments:
         scores = np.clip(
@@ -86,10 +86,10 @@ def recommend_for_user(
         top = np.asarray(selected, dtype=int)
     else:
         top = np.argsort(scores)[::-1][:n]
-    ranked = pd.DataFrame({"movieId": np.array(candidates)[top], "predicción": scores[top]})
-    ranked.insert(0, "posición", np.arange(1, len(ranked) + 1))
+    ranked = pd.DataFrame({"movieId": np.array(candidates)[top], "predicció": scores[top]})
+    ranked.insert(0, "posició", np.arange(1, len(ranked) + 1))
     return ranked.merge(movies[["movieId", "title", "genres"]], on="movieId", how="left")[
-        ["posición", "movieId", "title", "genres", "predicción"]
+        ["posició", "movieId", "title", "genres", "predicció"]
     ]
 
 
@@ -99,7 +99,7 @@ def _catalog_content_similarity(movies: pd.DataFrame):
     return features, {int(item): pos for pos, item in enumerate(movies["movieId"])}
 
 
-def _ranking_metrics(
+def _rànquing_metrics(
     model,
     train: pd.DataFrame,
     test: pd.DataFrame,
@@ -116,7 +116,7 @@ def _ranking_metrics(
 
     precisions, recalls, ndcgs, diversities, novelties = [], [], [], [], []
     recommended_catalog: set[int] = set()
-    ranking_seconds = 0.0
+    rànquing_seconds = 0.0
     for user, user_test in test_by_user.items():
         relevant = set(user_test.loc[user_test["rating"] >= relevance_threshold, "movieId"].astype(int))
         candidates = sorted(all_items - seen_by_user.get(user, set()))
@@ -124,7 +124,7 @@ def _ranking_metrics(
             continue
         started = perf_counter()
         scores = model.predict(user, candidates)
-        ranking_seconds += perf_counter() - started
+        rànquing_seconds += perf_counter() - started
         order = np.argsort(scores)[::-1][:top_k]
         recommended = [candidates[i] for i in order]
         recommended_catalog.update(recommended)
@@ -150,13 +150,13 @@ def _ranking_metrics(
         novelties.append(float(np.mean(item_novelty)))
 
     return {
-        f"Precisión@{top_k}": float(np.mean(precisions)) if precisions else 0.0,
+        f"Precisió@{top_k}": float(np.mean(precisions)) if precisions else 0.0,
         f"Recall@{top_k}": float(np.mean(recalls)) if recalls else 0.0,
         f"NDCG@{top_k}": float(np.mean(ndcgs)) if ndcgs else 0.0,
         "Cobertura": len(recommended_catalog) / max(1, len(all_items)),
-        "Diversidad": float(np.mean(diversities)) if diversities else 0.0,
-        "Novedad (bits)": float(np.mean(novelties)) if novelties else 0.0,
-        "Tiempo recomendación (s)": ranking_seconds,
+        "Diversitat": float(np.mean(diversities)) if diversities else 0.0,
+        "Novetat (bits)": float(np.mean(novelties)) if novelties else 0.0,
+        "Temps recomanació (s)": rànquing_seconds,
     }
 
 
@@ -170,7 +170,7 @@ def evaluate_models(
     relevance_threshold: float = 4.0,
     model_params: dict[str, dict] | None = None,
 ) -> tuple[pd.DataFrame, dict[str, object]]:
-    """Fit every model on one split and return comparable rating/ranking metrics."""
+    """Fit every model on one split and return comparable rating/rànquing metrics."""
     results: list[dict[str, float | str]] = []
     fitted: dict[str, object] = {}
     grouped_test = {int(u): g for u, g in test.groupby("userId")}
@@ -178,7 +178,7 @@ def evaluate_models(
 
     for model_name in model_names:
         params = model_params.get(model_name)
-        if params is None and model_name == "Modelo híbrido":
+        if params is None and model_name == "Model híbrid":
             params = hybrid_params
         model = build_model(model_name, params)
         started = perf_counter()
@@ -197,14 +197,14 @@ def evaluate_models(
         pred = np.asarray(predictions)
         errors = pred - truth
         row: dict[str, float | str] = {
-            "Algoritmo": model_name,
+            "Algoritme": model_name,
             "RMSE": float(np.sqrt(np.mean(errors**2))),
             "MAE": float(np.mean(np.abs(errors))),
-            "Tiempo entrenamiento (s)": fit_seconds,
-            "Tiempo predicción (s)": rating_seconds,
-            "Predicciones/s": len(pred) / max(rating_seconds, 1e-9),
+            "Temps entrenament (s)": fit_seconds,
+            "Temps predicció (s)": rating_seconds,
+            "Prediccions/s": len(pred) / max(rating_seconds, 1e-9),
         }
-        row.update(_ranking_metrics(model, train, test, movies, top_k, relevance_threshold))
+        row.update(_rànquing_metrics(model, train, test, movies, top_k, relevance_threshold))
         results.append(row)
         fitted[model_name] = model
 
@@ -223,10 +223,10 @@ def optimize_hybrid_weights(
     """Tune hybrid weights efficiently by reusing the four component predictions."""
     model_params = model_params or {}
     components = {
-        "base": "Modelo base",
-        "user": "K-NN usuario-usuario",
+        "base": "Model base",
+        "user": "K-NN usuari-usuari",
         "item": "K-NN ítem-ítem",
-        "content": "Basado en contenido",
+        "content": "Basat en contingut",
     }
     truths: list[float] = []
     predictions: dict[str, list[float]] = {key: [] for key in components}
