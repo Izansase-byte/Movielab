@@ -1,80 +1,80 @@
-# MovieLab · aplicación de escritorio
+# MovieLab · aplicació d’escriptori
 
-MovieLab es un programa Python de escritorio para experimentar con sistemas de recomendación de películas. La interfaz está construida con Tkinter y se abre como una ventana normal del sistema.
+MovieLab és un programa Python d’escriptori per experimentar amb sistemes de recomanació de pel·lícules. La interfície està construïda amb Tkinter i s’obre com una finestra normal del sistema.
 
-## Algoritmos
+## Algoritmes
 
-1. Modelo base con media global y sesgos regularizados.
-2. K-NN usuario-usuario.
+1. Model base amb mitjana global i biaixos regularitzats.
+2. K-NN usuari-usuari.
 3. K-NN ítem-ítem.
-4. Modelo basado en contenido mediante TF-IDF de géneros y, opcionalmente, títulos.
-5. Modelo híbrido que combina las cuatro predicciones anteriores.
+4. Model basat en contingut mitjançant TF-IDF de gèneres i, opcionalment, títols.
+5. Model híbrid que combina les quatre prediccions anteriors.
 
-## Funciones de la aplicación
+## Funcions de l’aplicació
 
-- Base SQLite de demostración con 60 películas, 90 usuarios y 1.842 valoraciones.
-- Apertura de carpetas MovieLens, parejas de CSV y bases SQLite.
-- Guardado del catálogo activo como una nueva base SQLite.
-- Parámetros independientes para ambos K-NN: vecinos, similitud mínima y regularización.
-- Regularización e iteraciones configurables para el modelo base.
-- Inclusión opcional del título y peso de los géneros en el modelo de contenido.
-- Pesos editables y normalizados automáticamente para el híbrido.
-- Optimizador automático de los pesos híbridos según RMSE o MAE.
-- Comparación mediante RMSE, MAE, precisión@K, recall@K, NDCG@K, cobertura, diversidad, novedad y tiempos.
-- Gráfico intercambiable para cualquiera de las métricas.
-- Recomendaciones filtradas por género, intervalo de años y número mínimo de votos.
-- Control para equilibrar afinidad y diversidad de la lista.
-- Explicación de las recomendaciones y de la aportación de cada componente híbrido.
-- Exportación de comparaciones y recomendaciones a CSV.
-- Buscador estadístico de películas por título, género, votos y nota.
-- Análisis individual de usuarios, distribución de notas y género favorito.
-- Comparación de géneros por catálogo, valoraciones, usuarios y nota media.
-- Informe de calidad: ausentes, duplicados, esparsidad, casos con pocos votos y desigualdad de popularidad.
-- Curva de concentración para analizar la cola larga del catálogo.
-- Formulario para crear un usuario, registrar sus valoraciones y géneros preferidos.
-- Dos formularios de alta: uno sencillo para uso cotidiano y otro avanzado para experimentar.
-- Recomendación inmediata para usuarios nuevos y opción de guardarlos en la base activa.
+- Base SQLite de demostració amb 60 pel·lícules, 90 usuaris i 1.842 valoracions.
+- Obertura de carpetes MovieLens, parelles de CSV i bases SQLite.
+- Desament del catàleg actiu com una nova base SQLite.
+- Paràmetres independents per a tots dos K-NN: veïns, similitud mínima i regularització.
+- Regularització i iteracions configurables per al model base.
+- Inclusió opcional del títol i pes dels gèneres en el model de contingut.
+- Pesos editables i normalitzats automàticament per al model híbrid.
+- Optimitzador automàtic dels pesos híbrids segons RMSE o MAE.
+- Comparació mitjançant RMSE, MAE, precisió@K, recall@K, NDCG@K, cobertura, diversitat, novetat i temps.
+- Gràfic intercanviable per a qualsevol de les mètriques.
+- Recomanacions filtrades per gènere, interval d’anys i nombre mínim de vots.
+- Control per equilibrar afinitat i diversitat de la llista.
+- Explicació de les recomanacions i de l’aportació de cada component híbrid.
+- Exportació de comparacions i recomanacions a CSV.
+- Cercador estadístic de pel·lícules per títol, gènere, vots i nota.
+- Anàlisi individual d’usuaris, distribució de notes i gènere preferit.
+- Comparació de gèneres per catàleg, valoracions, usuaris i nota mitjana.
+- Informe de qualitat: dades absents, duplicats, esparsitat, casos amb pocs vots i desigualtat de popularitat.
+- Corba de concentració per analitzar la cua llarga del catàleg.
+- Formulari per crear un usuari, registrar-ne les valoracions i els gèneres preferits.
+- Dos formularis d’alta: un de senzill per a l’ús quotidià i un altre d’avançat per experimentar.
+- Recomanació immediata per a usuaris nous i opció de desar-los a la base activa.
 
 ## Iniciar
 
-Desde la carpeta del proyecto:
+Des de la carpeta del projecte:
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 app.py
 ```
 
-También se puede iniciar con:
+També es pot iniciar amb:
 
 ```bash
 python3 desktop_app.py
 ```
 
-## Cargar MovieLens
+## Carregar MovieLens
 
-En la pestaña **Datos** o en el menú **Archivo**, selecciona una carpeta que contenga:
+A la pestanya **Dades** o al menú **Fitxer**, selecciona una carpeta que contingui:
 
 - `movies.csv`: `movieId`, `title`, `genres`;
-- `ratings.csv`: `userId`, `movieId`, `rating` y, opcionalmente, `timestamp`.
+- `ratings.csv`: `userId`, `movieId`, `rating` i, opcionalment, `timestamp`.
 
-También se pueden elegir los dos archivos por separado. Cuando el conjunto supera 2.500 películas, MovieLab ofrece limitarlo a los elementos y usuarios más activos para evitar que las matrices K-NN consuman demasiada memoria.
+També es poden triar els dos fitxers per separat. Quan el conjunt supera les 2.500 pel·lícules, MovieLab ofereix limitar-lo als elements i usuaris més actius per evitar que les matrius K-NN consumeixin massa memòria.
 
-## Comparación correcta
+## Comparació correcta
 
-Todos los algoritmos utilizan exactamente la misma partición de entrenamiento y prueba. La partición se realiza por usuario y deja al menos dos valoraciones para entrenar. La proporción, semilla, nota considerada relevante y tamaño del top-K se pueden modificar.
+Tots els algoritmes utilitzen exactament la mateixa partició d’entrenament i prova. La partició es fa per usuari i deixa almenys dues valoracions per entrenar. Es poden modificar la proporció, la llavor, la nota considerada rellevant i la mida del top-K.
 
-El optimizador de pesos utiliza la partición reservada como validación. En un experimento académico conviene separar además una prueba final que no se use durante la optimización.
+L’optimitzador de pesos utilitza la partició reservada com a validació. En un experiment acadèmic convé separar, a més, una prova final que no s’utilitzi durant l’optimització.
 
-## Introducir un usuario nuevo
+## Introduir un usuari nou
 
-Abre la pestaña **Nuevo usuario** y elige uno de los dos modos:
+Obre la pestanya **Nou usuari** i tria un dels dos modes:
 
-- **Sencillo:** introduce un nombre, marca géneros, elige al menos tres películas y responde con “No me gustó”, “Regular”, “Me gustó” o “Me encantó”. MovieLab configura automáticamente el híbrido.
-- **Avanzado:** permite introducir notas de 0,5 a 5 y controlar algoritmo, cantidad, impulso de géneros y diversidad.
+- **Senzill:** introdueix un nom, marca gèneres, tria almenys tres pel·lícules i respon amb “No em va agradar”, “Regular”, “Em va agradar” o “Em va encantar”. MovieLab configura automàticament el model híbrid.
+- **Avançat:** permet introduir notes de 0,5 a 5 i controlar l’algoritme, la quantitat, l’impuls dels gèneres i la diversitat.
 
-**Recomendar** crea un perfil temporal y entrena el algoritmo elegido. **Guardar usuario** incorpora sus valoraciones a la base activa. Para conservarlo después de cerrar el programa, utiliza **Archivo → Guardar base como SQLite**.
+**Recomanar** crea un perfil temporal i entrena l’algoritme triat. **Desar usuari** incorpora les seves valoracions a la base activa. Per conservar-lo després de tancar el programa, utilitza **Fitxer → Desar base com a SQLite**.
 
-## Pruebas
+## Proves
 
 ```bash
 python3 -m unittest discover -s tests -v
